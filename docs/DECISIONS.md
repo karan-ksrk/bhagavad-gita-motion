@@ -1,0 +1,165 @@
+# Decision Log
+
+Record every product, content, and technical decision here. Do not make
+these decisions silently in code. Each entry states the decision, the
+reason, who approved it, and the date.
+
+Status values: `proposed`, `approved`, `pending`, `superseded`.
+
+------------------------------------------------------------------------
+
+## Milestone 0 decisions
+
+### D-001 App name
+
+- **Decision:** Moksharan (lowercase `moksharan` in identifiers)
+- **Reason:** Distinct from the many existing "Bhagavad Gita" Play
+  listings.
+- **Open action:** [ ] Search Play Store for "Moksharan" to confirm no
+  conflicting listing before first upload.
+- **Status:** approved
+- **Approved by / date:** Karan, 2026-11-03
+
+### D-002 Android package ID
+
+- **Decision:** `io.github.karan_ksrk.moksharan`
+- **Reason:** Namespace under the owner's GitHub account
+  (`karan-ksrk`). Hyphen replaced with underscore because Java/Android
+  package segments do not allow hyphens.
+- **Note:** Permanent after first Play upload.
+- **Status:** approved
+- **Approved by / date:** Karan, 2026-11-03
+
+### D-003 Sanskrit source edition
+
+- **Decision:** Standard 700-verse text, using the chapter and verse
+  numbering of the Gita Press Gorakhpur edition.
+- **Cross-check edition:** _TBD_ (choose one second printed or
+  scholarly edition)
+- **Digital source used (URL / file):** _TBD_ (record exact source if
+  text is copied from a digital copy)
+- **License of digital source:** _TBD_
+- **Status:** approved (edition); pending (cross-check and digital
+  source)
+- **Approved by / date:** Karan, 2026-11-03
+
+### D-004 English translation source
+
+- **Decision:** Kashinath Trimbak Telang, *The Bhagavadgîtâ* (1882),
+  Sacred Books of the East, Vol. 8.
+- **Reason:** Close, literal translation; public domain (published 1882,
+  translator died 1893).
+- **Fallback / comparison:** Annie Besant, *The Bhagavad-Gita* (1905),
+  also public domain.
+- **Note:** Telang's English is archaic. Modern-language explanations,
+  if added, are original content and require scripture-reviewer
+  approval. Mark them `dialogue_type` / content type accordingly and
+  never present them as the translation.
+- **License status:** Public domain. Record the exact scanned edition
+  used in `docs/SCRIPTURE_SOURCES.md`.
+- **Status:** approved
+- **Approved by / date:** Karan, 2026-11-03
+
+### D-005 Hindi translation source
+
+- **Decision:** Original Hindi explanations, written for this app and
+  approved by the scripture reviewer (D-006). No third-party Hindi
+  translation is used unless licensed later.
+- **Reason:** Public-domain Hindi translations with clear rights are
+  scarce; modern Hindi translations are usually copyrighted.
+- **Blocker:** Cannot be published until a scripture reviewer is
+  confirmed.
+- **Status:** pending (reviewer required)
+- **Approved by / date:** Karan, 2026-11-03 (approach only)
+
+### D-006 Scripture reviewer
+
+- **Name:** _None yet_
+- **Target profile:** Sanskrit/Gita scholar, e.g. university Sanskrit
+  faculty or temple/mission scholar.
+- **Contact confirmed:** [ ] yes
+- **Status:** pending
+- **Impact:** Does not block engineering (prompts 12a/12b/12c use
+  placeholder content). Blocks Milestone 5 scene briefs, Milestone 9
+  scripture content, D-005, and any public release.
+
+### D-007 Cultural / devotional reviewer
+
+- **Name:** _None yet_
+- **Contact confirmed:** [ ] yes
+- **Status:** pending
+- **Impact:** Blocks approval of Krishna and Arjuna reference packs
+  (Milestone 4) and public release.
+
+### D-008 MVP sample range
+
+- **Decision:** Chapter 1 + Chapter 2 verses 2.1--2.11.
+- **Open action:** [ ] Verify pilot-scene verse ranges against D-003.
+- **Status:** approved
+- **Approved by / date:** Karan, 2026-11-03
+
+------------------------------------------------------------------------
+
+## Confirmed decisions (from roadmap section 2.1)
+
+| ID | Area | Decision | Status |
+|----|------|----------|--------|
+| D-101 | Initial platform | Android only | approved |
+| D-102 | Framework / language | Flutter stable / Dart | approved |
+| D-103 | Reading experience | Hybrid: cinematic scenes + layered motion + manga panels | approved |
+| D-104 | Languages | Sanskrit verse text always shown; UI/translation in Hindi or English; transliteration toggle | approved |
+| D-105 | Media delivery | Bundled sample; later chapters via Play Asset Delivery; no custom server | approved |
+| D-106 | Artwork generation | ChatGPT image generation | approved |
+| D-107 | Video generation | Google Flow | approved |
+| D-108 | Engineering agent | Claude Code | approved |
+| D-109 | Media processing | FFmpeg | approved |
+| D-110 | Version control | Git + GitHub (account `karan-ksrk`) | approved |
+| D-111 | Backend | None for MVP; local-first | approved |
+| D-112 | Local image generation | Not used | approved |
+| D-113 | Krita | Optional only | approved |
+
+------------------------------------------------------------------------
+
+## Dependencies
+
+| ID | Package | Version | Reason | Status |
+|----|---------|---------|--------|--------|
+| D-114 | `very_good_analysis` (dev) | ^11.0.0 | Stricter lint set than `flutter_lints`; `public_member_api_docs` disabled because this is an app, not a package | approved |
+| D-115 | `flutter_riverpod` | ^3.4.3 | State management (roadmap §3) | approved |
+| D-116 | `go_router` | ^18.1.2 | Navigation (roadmap §3) | approved |
+| D-117 | removed `cupertino_icons`, `flutter_lints` | -- | Android-only Material app; lints replaced by D-114 | approved |
+
+------------------------------------------------------------------------
+
+## Toolchain (recorded 2026-11-03)
+
+| Tool | Version |
+|------|---------|
+| Flutter | 3.47.9 stable |
+| Dart | 3.13.7 |
+| Android SDK | platform android-37, build-tools 36.0.0 |
+| JDK | Microsoft OpenJDK 17.0.21 |
+| Git | 2.56.0 |
+| FFmpeg | 9.0.2 |
+| Test device | Redmi Note 7 Pro, Android 13 (API 33) |
+
+------------------------------------------------------------------------
+
+## Pending decisions (before public release)
+
+- Logo and visual identity.
+- Minimum supported Android version and device-performance target.
+- Commentary, font, music, and artwork licensing.
+- Narration/audio in first public release.
+- Cloud backup or cross-device sync (later).
+- Privacy policy, analytics, and crash-reporting choices.
+- Play Store country availability and release strategy.
+
+------------------------------------------------------------------------
+
+## Change history
+
+| Date | ID | Change | By |
+|------|----|--------|----|
+| 2026-11-03 | D-001--D-008 | Milestone 0 decisions recorded | Karan / Claude Code |
+| 2026-11-03 | D-114--D-117 | Prompt 12a dependencies recorded | Claude Code |

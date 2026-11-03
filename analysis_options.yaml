@@ -1,0 +1,16 @@
+# Strict lint set for the Moksharan app.
+# very_good_analysis is chosen over flutter_lints for stricter type and
+# style checks. See docs/DECISIONS.md (D-114).
+include: package:very_good_analysis/analysis_options.yaml
+
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+
+linter:
+  rules:
+    # App code, not a published package: public API docs are not required.
+    public_member_api_docs: false
