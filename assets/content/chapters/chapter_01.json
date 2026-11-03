@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "_comment": "SAMPLE scenes for structure only. All text is placeholder, not scripture. One scene per renderer type.",
+  "chapter_id": "chapter_01",
+  "sample": true,
+  "scenes": [
+    {
+      "scene_id": "ch01_scene_001",
+      "order": 1,
+      "title": { "hi": "[नमूना] दृश्य 1", "en": "[Sample] Scene 1" },
+      "renderer": "cinematic",
+      "media": {
+        "poster": "ch01_scene001_poster",
+        "video": "ch01_scene001_loop"
+      },
+      "effects": [],
+      "dialogues": [
+        {
+          "dialogue_id": "ch01_s001_d001",
+          "speaker_id": "narrator",
+          "dialogue_type": "narration",
+          "text": {
+            "hi": "[नमूना वर्णन — समीक्षा लंबित]",
+            "en": "[Sample narration — pending review]"
+          },
+          "reveal_order": 1,
+          "text_status": "draft"
+        }
+      ],
+      "shloka_refs": ["BG.1.1"],
+      "read_time_seconds": 20
+    },
+    {
+      "scene_id": "ch01_scene_002",
+      "order": 2,
+      "title": { "hi": "[नमूना] दृश्य 2", "en": "[Sample] Scene 2" },
+      "renderer": "layered_motion",
+      "media": {
+        "background": "ch01_scene002_background",
+        "layers": ["ch01_scene002_krishna_layer"]
+      },
+      "effects": [
+        {
+          "effect_id": "aura_1",
+          "type": "golden_aura",
+          "enabled": true,
+          "anchor": { "x": 0.52, "y": 0.34 },
+          "scale": 0.4,
+          "intensity": 0.6,
+          "reduced_motion": "static"
+        },
+        {
+          "effect_id": "particles_1",
+          "type": "floating_particles",
+          "enabled": true,
+          "anchor": { "x": 0.5, "y": 0.4 },
+          "scale": 0.8,
+          "intensity": 0.4,
+          "reduced_motion": "hide"
+        },
+        {
+          "effect_id": "feather_1",
+          "type": "peacock_feather",
+          "enabled": true,
+          "anchor": { "x": 0.55, "y": 0.18 },
+          "scale": 0.1,
+          "intensity": 0.5,
+          "reduced_motion": "static"
+        }
+      ],
+      "dialogues": [
+        {
+          "dialogue_id": "ch01_s002_d001",
+          "speaker_id": "sanjaya",
+          "dialogue_type": "creative",
+          "text": {
+            "hi": "[नमूना संवाद — समीक्षा लंबित]",
+            "en": "[Sample creative dialogue — pending review]"
+          },
+          "reveal_order": 1,
+          "text_status": "draft"
+        }
+      ],
+      "shloka_refs": []
+    },
+    {
+      "scene_id": "ch01_scene_003",
+      "order": 3,
+      "title": { "hi": "[नमूना] दृश्य 3", "en": "[Sample] Scene 3" },
+      "renderer": "manga_panel",
+      "panels": [
+        {
+          "panel_id": "ch01_s003_p001",
+          "order": 1,
+          "image": "ch01_scene003_panel001",
+          "alt_text": {
+            "hi": "[नमूना चित्र विवरण]",
+            "en": "[Sample image description]"
+          },
+          "transition": "fade",
+          "dialogues": [
+            {
+              "dialogue_id": "ch01_s003_p001_d001",
+              "speaker_id": "arjuna",
+              "dialogue_type": "creative",
+              "text": {
+                "hi": "[नमूना संवाद — समीक्षा लंबित]",
+                "en": "[Sample creative dialogue — pending review]"
+              },
+              "reveal_order": 1,
+              "text_status": "draft"
+            }
+          ]
+        },
+        {
+          "panel_id": "ch01_s003_p002",
+          "order": 2,
+          "image": "ch01_scene003_panel002",
+          "alt_text": {
+            "hi": "[नमूना चित्र विवरण]",
+            "en": "[Sample image description]"
+          },
+          "transition": "slide",
+          "dialogues": [
+            {
+              "dialogue_id": "ch01_s003_p002_d001",
+              "speaker_id": "narrator",
+              "dialogue_type": "verse_paraphrase",
+              "source_ref": "BG.1.1",
+              "text": {
+                "hi": "[नमूना श्लोक भावार्थ — स्रोत सत्यापन लंबित]",
+                "en": "[Sample verse paraphrase — source verification pending]"
+              },
+              "reveal_order": 1,
+              "text_status": "draft"
+            }
+          ]
+        }
+      ],
+      "shloka_refs": ["BG.1.1"]
+    }
+  ]
+}

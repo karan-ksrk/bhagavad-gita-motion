@@ -35,8 +35,12 @@ flutter pub get
 dart format .
 flutter analyze
 flutter test
+dart run tool/validate_content.dart   # content rules; --release for ship gate
 flutter build apk --debug
 ```
+
+Content schema: `docs/CONTENT_SCHEMA.md`. Domain entities, parser, and
+validator are pure Dart (no Flutter imports) so the tool can use them.
 
 Do not run release builds until signing is configured (Milestone 15).
 

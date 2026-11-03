@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "_comment": "Paths are relative to assets/. Draft entries reserve IDs for pilot media (Milestone 5); files do not exist yet.",
+  "assets": [
+    {
+      "asset_id": "ch01_scene001_poster",
+      "path": "posters/ch01_scene001_poster.webp",
+      "media_type": "image",
+      "source_tool": "chatgpt",
+      "asset_status": "draft",
+      "rights_status": "pending"
+    },
+    {
+      "asset_id": "ch01_scene001_loop",
+      "path": "videos/ch01_scene001_loop.mp4",
+      "media_type": "video",
+      "source_tool": "google_flow",
+      "asset_status": "draft",
+      "rights_status": "pending"
+    },
+    {
+      "asset_id": "ch01_scene002_background",
+      "path": "environments/ch01_scene002_background.webp",
+      "media_type": "image",
+      "source_tool": "chatgpt",
+      "asset_status": "draft",
+      "rights_status": "pending"
+    },
+    {
+      "asset_id": "ch01_scene002_krishna_layer",
+      "path": "characters/ch01_scene002_krishna_layer.webp",
+      "media_type": "image",
+      "source_tool": "chatgpt",
+      "character_refs": ["krishna_master_v001"],
+      "asset_status": "draft",
+      "rights_status": "pending"
+    },
+    {
+      "asset_id": "ch01_scene003_panel001",
+      "path": "images/ch01_scene003_panel001.webp",
+      "media_type": "image",
+      "source_tool": "chatgpt",
+      "character_refs": ["arjuna_master_v001"],
+      "asset_status": "draft",
+      "rights_status": "pending"
+    },
+    {
+      "asset_id": "ch01_scene003_panel002",
+      "path": "images/ch01_scene003_panel002.webp",
+      "media_type": "image",
+      "source_tool": "chatgpt",
+      "asset_status": "draft",
+      "rights_status": "pending"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "gita_press_700",
+      "kind": "sanskrit_edition",
+      "title": "Shrimad Bhagavad Gita, standard 700-verse text (Gita Press Gorakhpur numbering)",
+      "license": "Sanskrit text public domain; digital source not yet chosen",
+      "decision_ref": "D-003",
+      "notes": "Cross-check edition and digital source pending."
+    },
+    {
+      "source_id": "telang_1882",
+      "kind": "translation",
+      "title": "The Bhagavadgita, Sacred Books of the East, Vol. 8",
+      "author": "Kashinath Trimbak Telang",
+      "year": 1882,
+      "license": "Public domain",
+      "decision_ref": "D-004",
+      "notes": "Record exact scanned edition in docs/SCRIPTURE_SOURCES.md before use."
+    },
+    {
+      "source_id": "app_original_hi",
+      "kind": "original",
+      "title": "Moksharan original Hindi explanations",
+      "license": "Project original; scripture reviewer approval required",
+      "decision_ref": "D-005",
+      "notes": "Blocked until a scripture reviewer is confirmed (D-006)."
+    }
+  ]
+}

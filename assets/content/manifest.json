@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "_comment": "SAMPLE manifest. Chapter titles and summaries are null until verified against D-003/D-004/D-005.",
+  "chapters": [
+    { "chapter_id": "chapter_01", "number": 1, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": "chapters/chapter_01.json" },
+    { "chapter_id": "chapter_02", "number": 2, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_03", "number": 3, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_04", "number": 4, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_05", "number": 5, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_06", "number": 6, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_07", "number": 7, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_08", "number": 8, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_09", "number": 9, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_10", "number": 10, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_11", "number": 11, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_12", "number": 12, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_13", "number": 13, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_14", "number": 14, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_15", "number": 15, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_16", "number": 16, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_17", "number": 17, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_18", "number": 18, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null }
+  ],
+  "shloka_files": ["shlokas/chapter_01.json"],
+  "media_manifest": "media_manifest.json",
+  "sources": "sources.json"
+}
