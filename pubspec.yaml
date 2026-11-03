@@ -88,3 +88,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+  # Tiro Devanagari Sanskrit, SIL OFL 1.1 (assets/fonts/OFL.txt). D-118.
+  fonts:
+    - family: TiroDevanagariSanskrit
+      fonts:
+        - asset: assets/fonts/TiroDevanagariSanskrit-Regular.ttf
+        - asset: assets/fonts/TiroDevanagariSanskrit-Italic.ttf
+          style: italic
