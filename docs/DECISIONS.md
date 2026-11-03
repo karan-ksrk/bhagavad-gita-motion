@@ -129,6 +129,8 @@ Status values: `proposed`, `approved`, `pending`, `superseded`.
 | D-116 | `go_router` | ^18.1.2 | Navigation (roadmap §3) | approved |
 | D-117 | removed `cupertino_icons`, `flutter_lints` | -- | Android-only Material app; lints replaced by D-114 | approved |
 | D-118 | Font: Tiro Devanagari Sanskrit (bundled TTF, Regular + Italic) | Google Fonts repo, 2026-11-03 | SIL OFL 1.1 (`assets/fonts/OFL.txt`). Display and verse text; covers Devanagari, Sanskrit conjuncts, and Latin. Bundled, not fetched, for offline use. UI body text uses the platform font (Roboto + system Noto Devanagari) | approved |
+| D-120 | Hand-written JSON parsing (no `json_serializable` / `freezed`) | -- | Avoids `build_runner` codegen; gives errors with file and JSON path; parser is pure Dart so `tool/validate_content.dart` reuses it. Schema documented in `docs/CONTENT_SCHEMA.md` | approved |
+| D-121 | Content validator in CI | -- | `dart run tool/validate_content.dart` runs on every push; `--release` gate rejects sample, placeholder, and unapproved content | approved |
 | D-119 | In-memory settings | -- | Language, transliteration, and reduced-motion settings live in a Riverpod `Notifier` until persistence in Milestone 10. UI strings stay English until localization in Milestone 9 | approved |
 
 ------------------------------------------------------------------------
@@ -166,3 +168,4 @@ Status values: `proposed`, `approved`, `pending`, `superseded`.
 | 2026-11-03 | D-001--D-008 | Milestone 0 decisions recorded | Karan / Claude Code |
 | 2026-11-03 | D-114--D-117 | Prompt 12a dependencies recorded | Claude Code |
 | 2026-11-03 | D-118--D-119 | Prompt 12b font and settings decisions | Claude Code |
+| 2026-11-03 | D-120--D-121 | Prompt 12c content schema and validator | Claude Code |

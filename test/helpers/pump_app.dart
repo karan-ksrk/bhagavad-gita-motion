@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moksharan/app.dart';
 import 'package:moksharan/core/routing/app_router.dart';
+import 'package:moksharan/data/repositories/content_providers.dart';
+import 'package:moksharan/data/repositories/local_content_repository.dart';
 
 /// Pumps the full app and returns its provider container.
 ///
@@ -16,7 +20,17 @@ Future<ProviderContainer> pumpApp(
   double textScale = 1,
   bool disableAnimations = false,
 }) async {
-  final container = ProviderContainer();
+  // Real content files, read synchronously: rootBundle's async I/O does
+  // not complete inside the widget-test fake clock.
+  final container = ProviderContainer(
+    overrides: [
+      contentRepositoryProvider.overrideWithValue(
+        LocalContentRepository(
+          (path) async => File('$contentAssetRoot/$path').readAsStringSync(),
+        ),
+      ),
+    ],
+  );
   addTearDown(container.dispose);
 
   await tester.pumpWidget(

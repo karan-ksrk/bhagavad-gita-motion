@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "_comment": "PLACEHOLDER verse record. No Sanskrit or translation text until verified against D-003 (Gita Press numbering), D-004 (Telang 1882), D-005 (reviewed Hindi).",
+  "chapter_id": "chapter_01",
+  "shlokas": [
+    {
+      "verse_id": "BG.1.1",
+      "chapter": 1,
+      "verse": 1,
+      "placeholder": true,
+      "sanskrit": null,
+      "transliteration": null,
+      "source_id": "gita_press_700",
+      "text_status": "draft",
+      "translations": [
+        {
+          "language": "en",
+          "text": null,
+          "source_id": "telang_1882",
+          "text_status": "draft"
+        },
+        {
+          "language": "hi",
+          "text": null,
+          "source_id": "app_original_hi",
+          "text_status": "draft"
+        }
+      ],
+      "word_meanings": []
+    }
+  ]
+}

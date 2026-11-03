@@ -31,5 +31,8 @@ jobs:
       - name: Analyze
         run: flutter analyze
 
+      - name: Validate content
+        run: dart run tool/validate_content.dart
+
       - name: Test
         run: flutter test
