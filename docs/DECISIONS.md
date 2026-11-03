@@ -131,6 +131,9 @@ Status values: `proposed`, `approved`, `pending`, `superseded`.
 | D-118 | Font: Tiro Devanagari Sanskrit (bundled TTF, Regular + Italic) | Google Fonts repo, 2026-11-03 | SIL OFL 1.1 (`assets/fonts/OFL.txt`). Display and verse text; covers Devanagari, Sanskrit conjuncts, and Latin. Bundled, not fetched, for offline use. UI body text uses the platform font (Roboto + system Noto Devanagari) | approved |
 | D-120 | Hand-written JSON parsing (no `json_serializable` / `freezed`) | -- | Avoids `build_runner` codegen; gives errors with file and JSON path; parser is pure Dart so `tool/validate_content.dart` reuses it. Schema documented in `docs/CONTENT_SCHEMA.md` | approved |
 | D-121 | Content validator in CI | -- | `dart run tool/validate_content.dart` runs on every push; `--release` gate rejects sample, placeholder, and unapproved content | approved |
+| D-122 | Krishna complexion | -- | Soft blue with a lavender undertone, as generated consistently across all seven Krishna references; replaces "deep blue-black" in prompts v001 | approved |
+| D-123 | Chariot banner mark | -- | Small glyph-like mark on the banner in both chariot references is kept as-is (reference use only). Production art must not reproduce it | approved |
+| D-124 | Reference images in Git | -- | Approved Milestone 4 references (~47 MB, 20 PNGs) committed directly; revisit Git LFS or external storage before production media grows | approved |
 | D-119 | In-memory settings | -- | Language, transliteration, and reduced-motion settings live in a Riverpod `Notifier` until persistence in Milestone 10. UI strings stay English until localization in Milestone 9 | approved |
 
 ------------------------------------------------------------------------
@@ -169,3 +172,4 @@ Status values: `proposed`, `approved`, `pending`, `superseded`.
 | 2026-11-03 | D-114--D-117 | Prompt 12a dependencies recorded | Claude Code |
 | 2026-11-03 | D-118--D-119 | Prompt 12b font and settings decisions | Claude Code |
 | 2026-11-03 | D-120--D-121 | Prompt 12c content schema and validator | Claude Code |
+| 2026-11-03 | D-122--D-124 | Milestone 4 reference set accepted | Karan / Claude Code |
