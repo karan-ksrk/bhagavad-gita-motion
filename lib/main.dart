@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moksharan/app.dart';
 import 'package:moksharan/data/repositories/prefs_user_data_repository.dart';
@@ -19,6 +20,13 @@ Future<void> main() async {
     debugPrint('Uncaught error: $error\n$stack');
     return true;
   };
+
+  // Bundled font license for the in-app licenses page (D-118).
+  LicenseRegistry.addLicense(() async* {
+    yield LicenseEntryWithLineBreaks(const [
+      'Tiro Devanagari Sanskrit (font)',
+    ], await rootBundle.loadString('assets/fonts/OFL.txt'));
+  });
 
   // Local user data (settings, progress, bookmarks). No network.
   final prefs = await SharedPreferences.getInstance();

@@ -152,6 +152,11 @@ Status values: `proposed`, `approved`, `pending`, `superseded`.
 | D-140 | No Drift for download metadata | -- | Play stores pack state itself, so the app keeps no download database; D-136 (SharedPreferences) stands | approved |
 | D-142 | `integration_test` and `flutter_driver` (dev, Flutter SDK) | -- | On-device flow test and frame-timing (`watchPerformance`) for Milestone 14; part of the SDK, no third-party code. Results in `docs/QA_REPORT.md` | approved |
 | D-143 | No route restoration after process death | -- | After the OS kills the app in the background, it reopens at Home; "Continue reading" goes back to the exact scene. Full `RestorationScope` routing is not worth the complexity for the MVP. Revisit if beta users report it | approved |
+| D-144 | Release signing | -- | Play App Signing with an owner-generated upload key (owner chose to create it). Keystore and passwords stay outside Git (`android/key.properties` or `MOKSHARAN_KEY_PROPERTIES`). Release builds are never signed with the debug key; without the key they are unsigned. Steps in `docs/RELEASE.md` | approved |
+| D-145 | R8 keep rule for WorkManager | -- | The release build crashed at startup: Play Asset Delivery's WorkManager (2.9.1, Room 2.5) creates `WorkDatabase_Impl` by reflection, and R8 full mode (AGP 9) removed it. `android/app/proguard-rules.pro` keeps generated Room database constructors. Pinning work-runtime 2.10.1 alone did not fix it, so it was not kept | approved |
+| D-146 | No data collection | -- | No analytics, crash reporting, ads, or accounts in the first release. Privacy policy (`docs/PRIVACY_POLICY.md`) and Data safety answers say "no data collected". Adding any of these needs a new decision and a policy update first | approved |
+| D-147 | Support contact and policy hosting | -- | Support: karanksrk2000@outlook.com plus GitHub Issues, shown on the About screen and in the listing. The privacy policy lives in the repo; the owner hosts it at a public URL of their choice | approved |
+| D-148 | First release scope | -- | Version 0.1.0+1 for internal testing. Target audience 13+ (avoids the Families policy until content is reviewed). Public release is blocked until the items in `docs/RIGHTS_REVIEW.md` are done | approved |
 | D-141 | Pack testing without Play Console | -- | Debug app bundle + `bundletool --local-testing` (`tool/install_with_packs.sh`) exercises the real Play Asset Delivery client against locally stored packs. Plain `flutter run` APKs carry no packs and show chapter 2 as "Download unavailable in this build". Internal app sharing / internal testing track waits for signing (Milestone 15) | approved |
 | D-119 | In-memory settings | -- | Language, transliteration, and reduced-motion settings live in a Riverpod `Notifier` until persistence in Milestone 10. UI strings stay English until localization in Milestone 9 | approved |
 
@@ -194,3 +199,4 @@ Status values: `proposed`, `approved`, `pending`, `superseded`.
 | 2026-11-03 | D-122--D-124 | Milestone 4 reference set accepted | Karan / Claude Code |
 | 2026-11-04 | D-139--D-141 | Milestone 11 chapter media packs | Claude Code |
 | 2026-11-04 | D-142--D-143 | Milestone 14 QA tooling and process-death behaviour | Claude Code |
+| 2026-11-04 | D-144--D-148 | Milestone 15 release preparation | Karan / Claude Code |

@@ -1,0 +1,6 @@
+# Copy to android/key.properties (gitignored) and fill in. See docs/RELEASE.md.
+# Keep the keystore file and these passwords backed up outside the repo.
+storeFile=C:/Users/Karan/.android/moksharan-upload.jks
+storePassword=CHANGE_ME
+keyAlias=upload
+keyPassword=CHANGE_ME
