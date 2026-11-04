@@ -7,7 +7,10 @@
     {
       "scene_id": "ch02_scene_001",
       "order": 1,
-      "title": { "hi": null, "en": "[Pilot] Arjuna asks for guidance" },
+      "title": {
+        "hi": null,
+        "en": "[Pilot] Arjuna asks for guidance"
+      },
       "renderer": "manga_panel",
       "panels": [
         {
@@ -24,7 +27,10 @@
               "dialogue_id": "ch02_s001_p001_d001",
               "speaker_id": "krishna",
               "dialogue_type": "creative",
-              "text": { "hi": null, "en": "[Dialogue pending scripture review]" },
+              "text": {
+                "hi": null,
+                "en": "[Dialogue pending scripture review]"
+              },
               "reveal_order": 1,
               "text_status": "draft"
             }
@@ -44,7 +50,10 @@
               "dialogue_id": "ch02_s001_p002_d001",
               "speaker_id": "arjuna",
               "dialogue_type": "creative",
-              "text": { "hi": null, "en": "[Dialogue pending scripture review]" },
+              "text": {
+                "hi": null,
+                "en": "[Dialogue pending scripture review]"
+              },
               "reveal_order": 1,
               "text_status": "draft"
             }
@@ -65,7 +74,10 @@
     {
       "scene_id": "ch02_scene_002",
       "order": 2,
-      "title": { "hi": null, "en": "[Pilot] Krishna begins to teach" },
+      "title": {
+        "hi": null,
+        "en": "[Pilot] Krishna begins to teach"
+      },
       "renderer": "layered_motion",
       "_media_note": "Krishna is part of the poster; no separate layer yet (cut-out deferred). Aura and particles draw over the poster.",
       "media": {
@@ -77,28 +89,49 @@
           "effect_id": "aura_1",
           "type": "golden_aura",
           "enabled": true,
-          "anchor": { "x": 0.336, "y": 0.391 },
+          "anchor": {
+            "x": 0.336,
+            "y": 0.391
+          },
           "scale": 0.45,
-          "intensity": 0.6,
+          "intensity": 0.8,
           "reduced_motion": "static"
         },
         {
           "effect_id": "particles_1",
           "type": "floating_particles",
           "enabled": true,
-          "anchor": { "x": 0.347, "y": 0.423 },
+          "anchor": {
+            "x": 0.347,
+            "y": 0.423
+          },
           "scale": 0.7,
-          "intensity": 0.4,
+          "intensity": 0.6,
           "reduced_motion": "hide"
         },
         {
           "effect_id": "feather_1",
           "type": "peacock_feather",
           "enabled": true,
-          "anchor": { "x": 0.275, "y": 0.286 },
+          "anchor": {
+            "x": 0.275,
+            "y": 0.286
+          },
           "scale": 0.08,
-          "intensity": 0.5,
+          "intensity": 0.8,
           "reduced_motion": "static"
+        },
+        {
+          "effect_id": "drift_1",
+          "type": "background_drift",
+          "enabled": true,
+          "anchor": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "scale": 1.0,
+          "intensity": 0.6,
+          "reduced_motion": "hide"
         }
       ],
       "dialogues": [
@@ -106,7 +139,10 @@
           "dialogue_id": "ch02_s002_d001",
           "speaker_id": "krishna",
           "dialogue_type": "creative",
-          "text": { "hi": null, "en": "[Dialogue pending scripture review]" },
+          "text": {
+            "hi": null,
+            "en": "[Dialogue pending scripture review]"
+          },
           "reveal_order": 1,
           "text_status": "draft"
         }

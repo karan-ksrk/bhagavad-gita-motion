@@ -47,6 +47,15 @@ void main() {
     });
   });
 
+  test('missing optional lists are typed and usable', () async {
+    final bundle = await ContentFixture().load();
+    final manga = bundle.chapterContents['chapters/chapter_01.json']!.scenes[1];
+    // Scene has no 'dialogues' key; combining with panel dialogue must work.
+    expect(manga.dialogues, isEmpty);
+    expect(manga.allDialogues.toList(), isEmpty);
+    expect(manga.effects, isEmpty);
+  });
+
   group('structural errors name file and JSON path', () {
     test('invalid JSON', () {
       expect(

@@ -19,6 +19,20 @@ void main() {
     expect(find.text("[Pilot] Arjuna's despair"), findsOneWidget);
   });
 
+  testWidgets('chapter 2 signature scene uses layered motion', (tester) async {
+    await pumpApp(tester, location: '/read/2');
+    expect(find.text('1 / 2'), findsOneWidget);
+
+    await tester.fling(find.byType(PageView), const Offset(-400, 0), 1000);
+    // Effects animate forever, so pump a fixed time instead of settling.
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pump(const Duration(seconds: 1));
+    expect(find.text('2 / 2'), findsOneWidget);
+    expect(find.byKey(const Key('effect-aura_1')), findsOneWidget);
+    expect(find.byKey(const Key('effect-particles_1')), findsOneWidget);
+    expect(find.byKey(const Key('effect-feather_1')), findsOneWidget);
+  });
+
   testWidgets('chapter without scenes shows placeholder', (tester) async {
     await pumpApp(tester, location: '/read/5');
     expect(find.text('READER PLACEHOLDER'), findsOneWidget);

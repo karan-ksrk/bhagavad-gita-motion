@@ -120,7 +120,9 @@ class JsonReader {
     bool optional = false,
   }) {
     final value = optional ? _map[key] : _required(key);
-    if (value == null && optional) return const [];
+    // Typed empty list: a bare `const []` here is List<Never>, which breaks
+    // later list operations such as followedBy.
+    if (value == null && optional) return List<T>.empty();
     if (value is! List<Object?>) fail(key, 'must be a list');
     return [
       for (var i = 0; i < value.length; i++)
