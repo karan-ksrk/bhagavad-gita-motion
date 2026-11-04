@@ -66,7 +66,6 @@ class _MangaPanelRendererState extends ConsumerState<MangaPanelRenderer> {
     final image = _PanelImage(
       key: ValueKey(panel.panelId),
       path: widget.paths[panel.imageAssetId],
-      altText: panel.altText.en ?? panel.altText.hi ?? '',
     );
 
     final duration = reduceMotion || panel.transition == PanelTransition.none
@@ -85,19 +84,31 @@ class _MangaPanelRendererState extends ConsumerState<MangaPanelRenderer> {
           children: [
             SceneArtFrame(
               backdropAsset: widget.paths[panel.imageAssetId],
-              child: AnimatedSwitcher(
-                duration: duration,
-                transitionBuilder: (child, animation) =>
-                    panel.transition == PanelTransition.slide
-                    ? SlideTransition(
-                        position: Tween(
-                          begin: const Offset(0.15, 0),
-                          end: Offset.zero,
-                        ).animate(animation),
-                        child: FadeTransition(opacity: animation, child: child),
-                      )
-                    : FadeTransition(opacity: animation, child: child),
-                child: image,
+              // Alt text lives outside the switcher: semantics nodes that
+              // fade in and out mid-transition tripped a framework
+              // assertion on device (Milestone 14).
+              child: Semantics(
+                image: true,
+                label: panel.altText.en ?? panel.altText.hi ?? '',
+                child: ExcludeSemantics(
+                  child: AnimatedSwitcher(
+                    duration: duration,
+                    transitionBuilder: (child, animation) =>
+                        panel.transition == PanelTransition.slide
+                        ? SlideTransition(
+                            position: Tween(
+                              begin: const Offset(0.15, 0),
+                              end: Offset.zero,
+                            ).animate(animation),
+                            child: FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            ),
+                          )
+                        : FadeTransition(opacity: animation, child: child),
+                    child: image,
+                  ),
+                ),
               ),
             ),
             // Bottom scrim keeps captions and the panel counter readable.
@@ -167,12 +178,18 @@ class _MangaPanelRendererState extends ConsumerState<MangaPanelRenderer> {
                                       ),
                               ),
                             ),
-                          const Spacer(),
-                          Text(
-                            'Panel ${_panel + 1} / ${_panels.length}  ·  '
-                            '${_atEnd ? 'Tap to restart' : 'Tap to continue'}',
-                            style: textTheme.bodySmall?.copyWith(
-                              color: AppColors.ivory,
+                          const SizedBox(width: AppSpacing.sm),
+                          // Wraps at large text sizes instead of
+                          // overflowing (found in Milestone 14).
+                          Expanded(
+                            child: Text(
+                              'Panel ${_panel + 1} / ${_panels.length}  ·  '
+                              '${_atEnd ? 'Tap to restart' : 'Tap to '
+                                        'continue'}',
+                              textAlign: TextAlign.end,
+                              style: textTheme.bodySmall?.copyWith(
+                                color: AppColors.ivory,
+                              ),
                             ),
                           ),
                         ],
@@ -190,26 +207,21 @@ class _MangaPanelRendererState extends ConsumerState<MangaPanelRenderer> {
 }
 
 class _PanelImage extends StatelessWidget {
-  const new({required this.path, required this.altText, super.key});
+  const new({required this.path, super.key});
 
   final String? path;
-  final String altText;
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      image: true,
-      label: altText,
-      child: path == null
-          ? const ColoredBox(color: AppColors.midnight)
-          : Image(
-              image: mediaImageProvider(path!),
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: double.infinity,
-              errorBuilder: (_, _, _) =>
-                  const ColoredBox(color: AppColors.midnight),
-            ),
-    );
+    return path == null
+        ? const ColoredBox(color: AppColors.midnight)
+        : Image(
+            image: mediaImageProvider(path!),
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+            errorBuilder: (_, _, _) =>
+                const ColoredBox(color: AppColors.midnight),
+          );
   }
 }

@@ -61,6 +61,10 @@ class ReaderScreen extends ConsumerWidget {
               : pack != null && !pack.isInstalled
               ? _NeedsDownload(chapterId: _chapterId, chapter: chapter)
               : _ScenePager(
+                  // New pager state per chapter (and per requested
+                  // scene), so reader-to-reader navigation never reuses
+                  // the previous chapter's page index.
+                  key: ValueKey('$_chapterId/$initialSceneId'),
                   chapterId: _chapterId,
                   scenes: c[_chapterId]!.scenes,
                   paths: p,
@@ -180,6 +184,7 @@ class _ScenePager extends ConsumerStatefulWidget {
     required this.chapterId,
     required this.scenes,
     required this.paths,
+    super.key,
     this.initialSceneId,
   });
 

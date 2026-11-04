@@ -1417,55 +1417,57 @@ number is kept so later milestone numbers stay stable.
 **Estimate:** 4--7 days\
 **Priority:** P0 before public beta
 
+Results and open items: `docs/QA_REPORT.md`.
+
 ### Functional tests
 
--   [ ] Home and chapter navigation.
--   [ ] Scene navigation.
--   [ ] Renderer selection.
--   [ ] Dialogue reveal.
--   [ ] Shloka rendering.
--   [ ] Language switching.
--   [ ] Bookmarks.
--   [ ] Reading progress.
+-   [x] Home and chapter navigation.
+-   [x] Scene navigation.
+-   [x] Renderer selection.
+-   [x] Dialogue reveal.
+-   [x] Shloka rendering.
+-   [x] Language switching.
+-   [x] Bookmarks.
+-   [x] Reading progress.
 -   [ ] Offline behavior.
--   [ ] Missing media fallback.
--   [ ] Video pause/resume/disposal.
+-   [x] Missing media fallback.
+-   [x] Video pause/resume/disposal.
 
 ### Device and lifecycle tests
 
 -   [ ] Low-memory device.
--   [ ] Mid-range device.
--   [ ] High-end device.
--   [ ] App background/foreground.
+-   [x] Mid-range device.
+-   [x] High-end device.
+-   [x] App background/foreground.
 -   [ ] Incoming call/audio interruption.
 -   [ ] Screen lock/unlock.
--   [ ] Process death and resume.
+-   [x] Process death and resume.
 -   [ ] Orientation and different screen sizes.
--   [ ] Low storage.
+-   [x] Low storage.
 -   [ ] No network.
 
 ### Accessibility tests
 
--   [ ] Screen-reader labels.
+-   [x] Screen-reader labels.
 -   [ ] Logical reading order.
--   [ ] Large text.
--   [ ] Contrast.
--   [ ] Touch target size.
--   [ ] Reduced motion.
+-   [x] Large text.
+-   [x] Contrast.
+-   [x] Touch target size.
+-   [x] Reduced motion.
 -   [ ] Captions/transcripts for narration.
--   [ ] No meaning conveyed only through colour or animation.
+-   [x] No meaning conveyed only through colour or animation.
 
 ### Performance checks
 
--   [ ] App startup.
--   [ ] Reader entry.
--   [ ] Video initialization.
--   [ ] Memory usage.
--   [ ] Frame pacing.
+-   [x] App startup.
+-   [x] Reader entry.
+-   [x] Video initialization.
+-   [x] Memory usage.
+-   [x] Frame pacing.
 -   [ ] Battery usage.
--   [ ] Image decode sizes.
--   [ ] Total installed size.
--   [ ] Chapter package sizes.
+-   [x] Image decode sizes.
+-   [x] Total installed size.
+-   [x] Chapter package sizes.
 
 ### Acceptance criteria
 
