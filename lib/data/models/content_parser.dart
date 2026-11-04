@@ -113,6 +113,7 @@ abstract final class ContentParser {
               videoAssetId: media.optString('video'),
               backgroundAssetId: media.optString('background'),
               layerAssetIds: media.strings('layers', optional: true),
+              videoLoop: media.boolean('video_loop', fallback: true),
             ),
       effects: r.objects('effects', _effect, optional: true),
       dialogues: r.objects('dialogues', _dialogue, optional: true),

@@ -55,4 +55,8 @@ class LocalContentRepository implements ContentRepository {
     }
     return null;
   }
+
+  @override
+  Future<List<MediaAsset>> mediaAssets() async =>
+      List.unmodifiable((await _load()).mediaAssets);
 }

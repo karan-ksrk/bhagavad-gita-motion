@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "_comment": "Paths relative to assets/. Stills processed from Milestone 5 sources (media-production/generated-artwork). Videos stay draft until regenerated without the visible watermark. prompt_id refers to media-production/briefs/M5_pilot_scenes.md v002.",
+  "_comment": "Paths relative to assets/. Stills processed from Milestone 5 sources (media-production/generated-artwork). Videos are temporary: they carry the visible Veo watermark and scene 1 does not loop seamlessly (D-126). prompt_id refers to media-production/briefs/M5_pilot_scenes.md v002.",
   "assets": [
     {
       "asset_id": "ch01_scene001_poster",
@@ -22,8 +22,15 @@
       "media_type": "video",
       "source_tool": "google_flow",
       "prompt_id": "F1",
-      "asset_status": "draft",
-      "rights_status": "pending"
+      "asset_status": "processed",
+      "rights_status": "pending",
+      "width": 720,
+      "height": 1280,
+      "duration_ms": 8000,
+      "size_bytes": 2176821,
+      "codec": "h264",
+      "checksum_sha256": "ee290491d1f88e95efd2c6a694b1de13ee616bed2c5634981d1ae8381e383368",
+      "notes_temporary": "Contains visible Veo watermark; replace (D-126)."
     },
     {
       "asset_id": "ch01_scene002_poster",
@@ -45,8 +52,15 @@
       "media_type": "video",
       "source_tool": "google_flow",
       "prompt_id": "F2",
-      "asset_status": "draft",
-      "rights_status": "pending"
+      "asset_status": "processed",
+      "rights_status": "pending",
+      "width": 720,
+      "height": 1280,
+      "duration_ms": 8000,
+      "size_bytes": 3531685,
+      "codec": "h264",
+      "checksum_sha256": "68f97a6cd6c7fd360d318023ec53f934c3267dfef00a5f6f13eb61803ebe8f3f",
+      "notes_temporary": "Contains visible Veo watermark; replace (D-126)."
     },
     {
       "asset_id": "ch01_scene003_panel001",

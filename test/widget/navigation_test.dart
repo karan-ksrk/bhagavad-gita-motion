@@ -64,7 +64,10 @@ void main() {
       await tester.tap(find.text('Open reader'));
       await tester.pumpAndSettle();
       expect(currentLocation(container), '/read/1');
-      expect(find.text('READER PLACEHOLDER'), findsOneWidget);
+      // Chapter 1 has pilot scenes: first is the cinematic scene.
+      expect(find.text('1 / 3'), findsOneWidget);
+      expect(find.text('[Pilot] The armies assembled'), findsOneWidget);
+      expect(find.byKey(const Key('fake-video')), findsOneWidget);
       // Reader is full-screen: no bottom navigation.
       expect(find.byType(NavigationBar), findsNothing);
 

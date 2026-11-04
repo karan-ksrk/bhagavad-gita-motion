@@ -14,4 +14,7 @@ abstract interface class ContentRepository {
 
   /// A media asset by ID, or null when it is not in the media manifest.
   Future<MediaAsset?> mediaAsset(String assetId);
+
+  /// All media assets in the manifest.
+  Future<List<MediaAsset>> mediaAssets();
 }
