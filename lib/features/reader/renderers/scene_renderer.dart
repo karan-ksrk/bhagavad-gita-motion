@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moksharan/core/animation/layered_motion_view.dart';
 import 'package:moksharan/core/media/cinematic_video_view.dart';
 import 'package:moksharan/core/theme/app_tokens.dart';
+import 'package:moksharan/core/widgets/scene_art_frame.dart';
 import 'package:moksharan/domain/entities/content.dart';
 import 'package:moksharan/features/reader/dialogue_overlay.dart';
 import 'package:moksharan/features/reader/renderers/manga_panel_renderer.dart';
@@ -43,10 +44,13 @@ class CinematicSceneRenderer extends StatelessWidget {
     final media = scene.media;
     return _WithDialogue(
       scene: scene,
-      child: CinematicVideoView(
-        posterAsset: paths[media.posterAssetId],
-        videoAsset: paths[media.videoAssetId],
-        loop: media.videoLoop,
+      child: SceneArtFrame(
+        backdropAsset: paths[media.posterAssetId],
+        child: CinematicVideoView(
+          posterAsset: paths[media.posterAssetId],
+          videoAsset: paths[media.videoAssetId],
+          loop: media.videoLoop,
+        ),
       ),
     );
   }
@@ -64,13 +68,17 @@ class LayeredMotionRenderer extends StatelessWidget {
     final media = scene.media;
     return _WithDialogue(
       scene: scene,
-      child: LayeredMotionView(
-        backgroundAsset: paths[media.backgroundAssetId ?? media.posterAssetId],
-        layerAssets: [
-          for (final id in media.layerAssetIds)
-            if (paths[id] != null) paths[id]!,
-        ],
-        effects: scene.effects,
+      child: SceneArtFrame(
+        backdropAsset: paths[media.backgroundAssetId ?? media.posterAssetId],
+        child: LayeredMotionView(
+          backgroundAsset:
+              paths[media.backgroundAssetId ?? media.posterAssetId],
+          layerAssets: [
+            for (final id in media.layerAssetIds)
+              if (paths[id] != null) paths[id]!,
+          ],
+          effects: scene.effects,
+        ),
       ),
     );
   }
@@ -92,11 +100,13 @@ class _WithDialogue extends StatelessWidget {
           left: AppSpacing.md,
           right: AppSpacing.md,
           bottom: AppSpacing.lg,
-          child: SafeArea(
-            top: false,
-            child: DialogueOverlay(
-              dialogues: scene.dialogues,
-              title: scene.title.en ?? scene.title.hi ?? scene.sceneId,
+          child: ReadableWidth(
+            child: SafeArea(
+              top: false,
+              child: DialogueOverlay(
+                dialogues: scene.dialogues,
+                title: scene.title.en ?? scene.title.hi ?? scene.sceneId,
+              ),
             ),
           ),
         ),
