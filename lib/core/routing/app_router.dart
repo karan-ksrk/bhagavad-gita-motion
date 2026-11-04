@@ -6,6 +6,7 @@ import 'package:moksharan/core/routing/not_found_screen.dart';
 import 'package:moksharan/features/bookmarks/bookmarks_screen.dart';
 import 'package:moksharan/features/chapters/chapter_detail_screen.dart';
 import 'package:moksharan/features/chapters/chapters_screen.dart';
+import 'package:moksharan/features/downloads/storage_screen.dart';
 import 'package:moksharan/features/home/home_screen.dart';
 import 'package:moksharan/features/reader/reader_screen.dart';
 import 'package:moksharan/features/settings/about_screen.dart';
@@ -22,6 +23,7 @@ abstract final class AppRoutes {
 
   static String chapter(int number) => '/chapters/$number';
   static const about = '/about';
+  static const storage = '/storage';
 
   /// Reader for [chapter]; [sceneId] opens a specific scene, otherwise
   /// the reader resumes at the saved position.
@@ -102,6 +104,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootNavigatorKey,
         path: AppRoutes.about,
         builder: (context, state) => const AboutScreen(),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: AppRoutes.storage,
+        builder: (context, state) => const StorageScreen(),
       ),
       GoRoute(
         parentNavigatorKey: _rootNavigatorKey,

@@ -1350,16 +1350,18 @@ backend, resume, or checksum logic is needed.
 
 ### Tasks
 
--   [ ] Define one asset pack per chapter and its manifest.
--   [ ] Select or write the Flutter integration for Play Asset Delivery
+-   [x] Define one asset pack per chapter and its manifest.
+-   [x] Select or write the Flutter integration for Play Asset Delivery
     (plugin or platform channel). Record the reason.
--   [ ] Show pack size before download.
--   [ ] Design download progress UI.
--   [ ] Handle low-storage and failed-download states.
--   [ ] Implement remove downloaded chapter.
--   [ ] Ensure bundled sample content remains available.
--   [ ] Add storage usage screen.
+-   [x] Show pack size before download.
+-   [x] Design download progress UI.
+-   [x] Handle low-storage and failed-download states.
+-   [x] Implement remove downloaded chapter.
+-   [x] Ensure bundled sample content remains available.
+-   [x] Add storage usage screen.
 -   [ ] Test with internal app sharing / internal testing track.
+    Local testing with bundletool done (D-141); Play track waits for
+    signing (Milestone 15).
 -   [ ] Test offline after download.
 
 ### Acceptance criteria

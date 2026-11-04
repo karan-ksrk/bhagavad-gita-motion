@@ -155,6 +155,7 @@ class Chapter {
     this.title,
     this.summary,
     this.scenesFile,
+    this.mediaPack,
   });
 
   final String chapterId;
@@ -169,6 +170,10 @@ class Chapter {
   /// Path (relative to the content root) of the chapter's scene file, or
   /// null when the chapter has no scenes yet.
   final String? scenesFile;
+
+  /// Play asset pack holding this chapter's media, or null when the
+  /// media is bundled with the app (D-139).
+  final String? mediaPack;
 }
 
 /// A chapter's scenes, loaded from its scene file.
@@ -266,12 +271,17 @@ class MediaAsset {
     this.checksumSha256,
     this.promptId,
     this.characterRefs = const [],
+    this.pack,
   });
 
   final String assetId;
 
-  /// Path relative to `assets/`.
+  /// Path relative to `assets/` (bundled) or to the asset pack's
+  /// assets folder when [pack] is set.
   final String path;
+
+  /// Play asset pack that delivers this file, or null when bundled.
+  final String? pack;
   final MediaType mediaType;
   final int? width;
   final int? height;

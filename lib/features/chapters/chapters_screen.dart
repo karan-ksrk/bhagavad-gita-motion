@@ -9,9 +9,12 @@ import 'package:moksharan/core/widgets/app_card.dart';
 import 'package:moksharan/core/widgets/content_width.dart';
 import 'package:moksharan/core/widgets/sample_badge.dart';
 import 'package:moksharan/core/widgets/state_views.dart';
+import 'package:moksharan/data/asset_packs/asset_pack_providers.dart';
 import 'package:moksharan/data/repositories/content_providers.dart';
 import 'package:moksharan/data/repositories/user_data_providers.dart';
+import 'package:moksharan/domain/entities/asset_pack.dart';
 import 'package:moksharan/domain/entities/content.dart';
+import 'package:moksharan/features/downloads/pack_status_text.dart';
 
 class ChaptersScreen extends ConsumerWidget {
   const new({super.key});
@@ -76,6 +79,13 @@ class ChapterTile extends ConsumerWidget {
       ),
     );
     final read = visited.intersection(sceneIds).length;
+    final pack = ref.watch(chapterPackStateProvider(chapter.chapterId));
+    final packText = pack == null || pack.status == PackStatus.unknown
+        ? null
+        : packStatusText(
+            pack,
+            size: ref.read(assetPacksProvider.notifier).sizeOf(pack.name),
+          );
     final progressText = sceneIds.isEmpty || read == 0
         ? null
         : read == sceneIds.length
@@ -87,6 +97,7 @@ class ChapterTile extends ConsumerWidget {
         'Chapter $n',
         subtitle,
         ?progressText,
+        ?packText,
         if (chapter.sample) 'sample',
       ].join(', '),
       onTap: () => context.go(AppRoutes.chapter(n)),
@@ -109,6 +120,24 @@ class ChapterTile extends ConsumerWidget {
                 Text('Chapter $n', style: textTheme.titleMedium),
                 const SizedBox(height: AppSpacing.xs),
                 Text(subtitle, style: textTheme.bodySmall),
+                if (packText != null) ...[
+                  const SizedBox(height: AppSpacing.xs),
+                  Row(
+                    children: [
+                      Icon(
+                        pack!.isInstalled
+                            ? Icons.download_done
+                            : Icons.cloud_outlined,
+                        size: 14,
+                        color: AppColors.ivoryMuted,
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                      Flexible(
+                        child: Text(packText, style: textTheme.bodySmall),
+                      ),
+                    ],
+                  ),
+                ],
                 if (progressText != null) ...[
                   const SizedBox(height: AppSpacing.xs),
                   Text(

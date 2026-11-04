@@ -97,6 +97,7 @@ abstract final class ContentParser {
     textStatus: _textStatus(r),
     sample: r.boolean('sample', fallback: false),
     scenesFile: r.optString('scenes_file'),
+    mediaPack: r.optString('media_pack'),
   );
 
   static Scene _scene(JsonReader r) {
@@ -212,6 +213,7 @@ abstract final class ContentParser {
     sourceTool: r.string('source_tool'),
     promptId: r.optString('prompt_id'),
     characterRefs: r.strings('character_refs', optional: true),
+    pack: r.optString('pack'),
     assetStatus: r.enumValue('asset_status', AssetStatus.values, (v) => v.wire),
     rightsStatus: r.enumValue(
       'rights_status',

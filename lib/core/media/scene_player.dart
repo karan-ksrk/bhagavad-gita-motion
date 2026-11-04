@@ -44,9 +44,10 @@ abstract interface class ScenePlayer {
   /// Width / height of the video, valid once [PlayerSnapshot.hasVideo].
   double get aspectRatio;
 
-  /// Loads a bundled video by Flutter asset path (e.g.
-  /// `assets/videos/ch01_scene001_loop.mp4`). Errors are reported through
-  /// [state], never thrown.
+  /// Loads a video by media path: a Flutter asset path (e.g.
+  /// `assets/videos/ch01_scene001_loop.mp4`) or an absolute file path in
+  /// an installed asset pack. Errors are reported through [state], never
+  /// thrown.
   Future<void> load({required String assetPath, required bool loop});
 
   Future<void> play();

@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moksharan/data/asset_packs/asset_pack_providers.dart';
 import 'package:moksharan/data/repositories/local_content_repository.dart';
 import 'package:moksharan/domain/entities/content.dart';
 import 'package:moksharan/domain/repositories/content_repository.dart';
@@ -17,12 +18,22 @@ final chaptersProvider = FutureProvider<List<Chapter>>(
   (ref) => ref.watch(contentRepositoryProvider).chapters(),
 );
 
-/// Asset ID to Flutter asset path (`assets/<manifest path>`).
+/// Asset ID to media path: a Flutter asset path (`assets/<path>`) for
+/// bundled files, or an absolute file path inside an installed asset
+/// pack. Assets in packs that are not installed are left out. See
+/// `core/media/media_source.dart`.
 final mediaAssetPathsProvider = FutureProvider<Map<String, String>>((
   ref,
 ) async {
+  final installed = ref.watch(installedPacksProvider).paths;
   final assets = await ref.watch(contentRepositoryProvider).mediaAssets();
-  return {for (final a in assets) a.assetId: 'assets/${a.path}'};
+  return {
+    for (final a in assets)
+      if (a.pack == null)
+        a.assetId: 'assets/${a.path}'
+      else if (installed[a.pack] case final dir?)
+        a.assetId: '$dir/${a.path}',
+  };
 });
 
 /// Scenes for every chapter that has a scene file, keyed by chapter ID.

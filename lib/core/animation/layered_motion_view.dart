@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moksharan/core/animation/effect_painters.dart';
+import 'package:moksharan/core/media/media_source.dart';
 import 'package:moksharan/core/settings/app_settings.dart';
 import 'package:moksharan/core/theme/app_colors.dart';
 import 'package:moksharan/domain/entities/content.dart';
@@ -99,8 +100,8 @@ class _LayeredMotionViewState extends ConsumerState<LayeredMotionView>
       children: [
         const ColoredBox(color: Colors.black),
         if (widget.backgroundAsset != null)
-          Image.asset(
-            widget.backgroundAsset!,
+          Image(
+            image: mediaImageProvider(widget.backgroundAsset!),
             fit: BoxFit.cover,
             errorBuilder: (_, _, _) =>
                 const ColoredBox(color: AppColors.midnight),
@@ -108,8 +109,8 @@ class _LayeredMotionViewState extends ConsumerState<LayeredMotionView>
         for (final e in visible(EffectType.goldenAura))
           effectLayer(e, GoldenAuraPainter(effect: e, clock: clock)),
         for (final layer in widget.layerAssets)
-          Image.asset(
-            layer,
+          Image(
+            image: mediaImageProvider(layer),
             fit: BoxFit.cover,
             errorBuilder: (_, _, _) => const SizedBox.shrink(),
           ),

@@ -7,11 +7,14 @@ import 'package:moksharan/core/theme/app_colors.dart';
 import 'package:moksharan/core/theme/app_tokens.dart';
 import 'package:moksharan/core/widgets/sample_badge.dart';
 import 'package:moksharan/core/widgets/state_views.dart';
+import 'package:moksharan/data/asset_packs/asset_pack_providers.dart';
 import 'package:moksharan/data/repositories/content_providers.dart';
 import 'package:moksharan/data/repositories/user_data_providers.dart';
+import 'package:moksharan/domain/entities/asset_pack.dart';
 import 'package:moksharan/domain/entities/content.dart';
 import 'package:moksharan/domain/entities/user_data.dart';
 import 'package:moksharan/domain/gita_structure.dart';
+import 'package:moksharan/features/downloads/chapter_download_card.dart';
 import 'package:moksharan/features/reader/renderers/scene_renderer.dart';
 
 /// Full-screen reader. Swipes between a chapter's scenes.
@@ -26,7 +29,7 @@ class ReaderScreen extends ConsumerWidget {
   /// Scene to open; when null, resumes at the saved scene.
   final String? initialSceneId;
 
-  String get _chapterId => 'chapter_${chapter.toString().padLeft(2, '0')}';
+  String get _chapterId => GitaStructure.chapterId(chapter);
 
   void _close(BuildContext context) {
     if (context.canPop()) {
@@ -47,23 +50,32 @@ class ReaderScreen extends ConsumerWidget {
     } else {
       final contents = ref.watch(chapterContentsProvider);
       final paths = ref.watch(mediaAssetPathsProvider);
-      body = switch ((contents, paths)) {
-        (AsyncData(value: final c), AsyncData(value: final p)) =>
+      final packs = ref.watch(chapterPacksProvider);
+      final pack = ref.watch(chapterPackStateProvider(_chapterId));
+      body = switch ((contents, paths, packs)) {
+        (AsyncData(value: final c), AsyncData(value: final p), AsyncData()) =>
           c[_chapterId] == null
               ? _NoScenes(chapter: chapter)
+              : pack != null && pack.status == PackStatus.unknown
+              ? const LoadingView(message: 'Checking chapter media')
+              : pack != null && !pack.isInstalled
+              ? _NeedsDownload(chapterId: _chapterId, chapter: chapter)
               : _ScenePager(
                   chapterId: _chapterId,
                   scenes: c[_chapterId]!.scenes,
                   paths: p,
                   initialSceneId: initialSceneId,
                 ),
-        (AsyncError(), _) || (_, AsyncError()) => ErrorView(
+        (AsyncError(), _, _) ||
+        (_, AsyncError(), _) ||
+        (_, _, AsyncError()) => ErrorView(
           title: 'Scenes could not be loaded',
           action: FilledButton(
             onPressed: () {
               ref
                 ..invalidate(chapterContentsProvider)
-                ..invalidate(mediaAssetPathsProvider);
+                ..invalidate(mediaAssetPathsProvider)
+                ..invalidate(chapterPacksProvider);
             },
             child: const Text('Try again'),
           ),
@@ -92,6 +104,40 @@ class ReaderScreen extends ConsumerWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Shown for a chapter whose media pack is not installed yet.
+class _NeedsDownload extends StatelessWidget {
+  const new({required this.chapterId, required this.chapter});
+
+  final String chapterId;
+  final int chapter;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 480),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Download this chapter to read it. It stays available '
+                'offline afterwards.',
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: AppSpacing.md),
+              ChapterDownloadCard(chapterId: chapterId, chapter: chapter),
+            ],
+          ),
+        ),
       ),
     );
   }
