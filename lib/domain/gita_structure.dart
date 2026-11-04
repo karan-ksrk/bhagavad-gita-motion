@@ -20,4 +20,20 @@ abstract final class GitaStructure {
     if (!isValidChapter(chapter) || verse < 1) return null;
     return (chapter: chapter, verse: verse);
   }
+
+  static final _chapterIdPattern = RegExp(r'^chapter_(\d{2})$');
+  static final _sceneIdPattern = RegExp(r'^ch(\d{2})_scene_\d{3}$');
+
+  /// `chapter_02` -> 2, or null when malformed or out of range.
+  static int? chapterNumberOf(String chapterId) =>
+      _valid(_chapterIdPattern.firstMatch(chapterId)?.group(1));
+
+  /// `ch02_scene_001` -> 2, or null when malformed or out of range.
+  static int? chapterNumberOfScene(String sceneId) =>
+      _valid(_sceneIdPattern.firstMatch(sceneId)?.group(1));
+
+  static int? _valid(String? digits) {
+    final n = digits == null ? null : int.parse(digits);
+    return n != null && isValidChapter(n) ? n : null;
+  }
 }

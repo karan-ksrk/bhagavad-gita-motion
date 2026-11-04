@@ -11,7 +11,9 @@ import 'package:moksharan/core/widgets/content_width.dart';
 import 'package:moksharan/core/widgets/state_views.dart';
 import 'package:moksharan/core/widgets/text_status_badge.dart';
 import 'package:moksharan/data/repositories/content_providers.dart';
+import 'package:moksharan/data/repositories/user_data_providers.dart';
 import 'package:moksharan/domain/entities/content.dart';
+import 'package:moksharan/domain/entities/user_data.dart';
 import 'package:moksharan/domain/gita_structure.dart';
 import 'package:moksharan/domain/text_selection.dart';
 
@@ -73,11 +75,7 @@ class ShlokaScreen extends ConsumerWidget {
                   .setShowTransliteration(value: !show);
             },
           ),
-          const IconButton(
-            tooltip: 'Bookmark (coming in Milestone 10)',
-            icon: Icon(Icons.bookmark_border),
-            onPressed: null,
-          ),
+          _VerseBookmarkButton(verseId: verseId),
         ],
       ),
       body: SafeArea(top: false, child: body),
@@ -400,6 +398,30 @@ class _Section extends StatelessWidget {
           child,
         ],
       ),
+    );
+  }
+}
+
+class _VerseBookmarkButton extends ConsumerWidget {
+  const new({required this.verseId});
+
+  final String verseId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final saved = ref.watch(
+      bookmarksProvider.select(
+        (list) => list.any((b) => b.bookmarkId == Bookmark.idForVerse(verseId)),
+      ),
+    );
+    return IconButton(
+      tooltip: saved ? 'Remove verse bookmark' : 'Bookmark verse',
+      icon: Icon(
+        saved ? Icons.bookmark : Icons.bookmark_border,
+        color: saved ? AppColors.gold : null,
+      ),
+      onPressed: () =>
+          ref.read(bookmarksProvider.notifier).toggleVerse(verseId),
     );
   }
 }

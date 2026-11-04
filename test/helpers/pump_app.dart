@@ -11,6 +11,7 @@ import 'package:moksharan/data/repositories/content_providers.dart';
 import 'package:moksharan/data/repositories/local_content_repository.dart';
 
 import 'fake_scene_player.dart';
+import 'prefs.dart';
 
 /// Pumps the full app and returns its provider container.
 ///
@@ -22,7 +23,9 @@ Future<ProviderContainer> pumpApp(
   String? location,
   double textScale = 1,
   bool disableAnimations = false,
+  Map<String, Object> prefs = const {},
 }) async {
+  final prefsOverrideValue = await prefsOverride(prefs);
   // Real content files, read synchronously: rootBundle's async I/O does
   // not complete inside the widget-test fake clock.
   final container = ProviderContainer(
@@ -32,6 +35,7 @@ Future<ProviderContainer> pumpApp(
           (path) async => File('$contentAssetRoot/$path').readAsStringSync(),
         ),
       ),
+      prefsOverrideValue,
       // No platform video decoder in widget tests.
       scenePlayerFactoryProvider.overrideWithValue(FakePlayerFactory().call),
     ],

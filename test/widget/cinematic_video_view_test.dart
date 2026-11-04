@@ -6,6 +6,7 @@ import 'package:moksharan/core/media/media_providers.dart';
 import 'package:moksharan/core/settings/app_settings.dart';
 
 import '../helpers/fake_scene_player.dart';
+import '../helpers/prefs.dart';
 
 const _poster = 'assets/posters/ch01_scene001_poster.webp';
 const _video = 'assets/videos/ch01_scene001_loop.mp4';
@@ -20,7 +21,10 @@ Future<(FakePlayerFactory, ProviderContainer)> _pump(
 }) async {
   final factory = FakePlayerFactory(failLoad: failLoad);
   final container = ProviderContainer(
-    overrides: [scenePlayerFactoryProvider.overrideWithValue(factory.call)],
+    overrides: [
+      await prefsOverride(),
+      scenePlayerFactoryProvider.overrideWithValue(factory.call),
+    ],
   );
   addTearDown(container.dispose);
   if (reducedMotion) {
@@ -118,7 +122,10 @@ void main() {
   testWidgets('pauses when covered and resumes when uncovered', (tester) async {
     final factory = FakePlayerFactory();
     final container = ProviderContainer(
-      overrides: [scenePlayerFactoryProvider.overrideWithValue(factory.call)],
+      overrides: [
+        await prefsOverride(),
+        scenePlayerFactoryProvider.overrideWithValue(factory.call),
+      ],
     );
     addTearDown(container.dispose);
     final enabled = ValueNotifier(true);
