@@ -70,6 +70,24 @@ class AboutScreen extends ConsumerWidget {
                 'review before public release.',
                 style: textTheme.bodySmall,
               ),
+              heading('Support'),
+              Text(
+                'Questions or problems: karanksrk2000@outlook.com, or open '
+                'an issue at github.com/karan-ksrk/bhagavad-gita-motion.',
+                style: textTheme.bodySmall,
+              ),
+              const SizedBox(height: AppSpacing.md),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: OutlinedButton.icon(
+                  onPressed: () => showLicensePage(
+                    context: context,
+                    applicationName: 'Moksharan',
+                  ),
+                  icon: const Icon(Icons.description_outlined),
+                  label: const Text('Open-source licenses'),
+                ),
+              ),
             ],
           ),
         ),

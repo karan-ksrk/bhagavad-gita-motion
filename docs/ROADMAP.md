@@ -1483,25 +1483,30 @@ Results and open items: `docs/QA_REPORT.md`.
 **Estimate:** 3--5 days\
 **Priority:** P0 before public release
 
+Guide: `docs/RELEASE.md`. Owner steps: create upload key, Play Console.
+
 ### Tasks
 
--   [ ] Confirm app permissions are minimal.
--   [ ] Confirm no secrets are embedded in the app.
--   [ ] Document local data stored by the app.
--   [ ] Prepare privacy policy appropriate to actual data practices.
--   [ ] Prepare terms/attribution where needed.
+-   [x] Confirm app permissions are minimal.
+-   [x] Confirm no secrets are embedded in the app.
+-   [x] Document local data stored by the app.
+-   [x] Prepare privacy policy appropriate to actual data practices.
+-   [x] Prepare terms/attribution where needed.
 -   [ ] Complete translation and commentary license review.
+    Review done (`docs/RIGHTS_REVIEW.md`); digital Sanskrit source still to choose.
 -   [ ] Complete font and audio license review.
 -   [ ] Complete artwork/tool terms review.
+    Review done; Flow videos block public release.
 -   [ ] Prepare app icon.
--   [ ] Prepare screenshots.
--   [ ] Prepare Play Store description.
--   [ ] Prepare support contact and issue process.
--   [ ] Configure signing securely.
--   [ ] Build release AAB.
--   [ ] Test release build, not just debug.
+    Prompt ready; owner generates.
+-   [x] Prepare screenshots.
+-   [x] Prepare Play Store description.
+-   [x] Prepare support contact and issue process.
+-   [x] Configure signing securely.
+-   [x] Build release AAB.
+-   [x] Test release build, not just debug.
 -   [ ] Set up internal testing track.
--   [ ] Meet the current Play target API level requirement.
+-   [x] Meet the current Play target API level requirement.
 -   [ ] Complete the Data safety form.
 -   [ ] Complete the content rating questionnaire.
 -   [ ] Review current Play Console requirements.

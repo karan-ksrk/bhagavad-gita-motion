@@ -1,8 +1,23 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
+
+// Release signing (D-144). The upload keystore and its passwords live
+// outside Git: android/key.properties (gitignored), or the file named by
+// the MOKSHARAN_KEY_PROPERTIES environment variable. See docs/RELEASE.md.
+val keyPropertiesFile: File =
+    System.getenv("MOKSHARAN_KEY_PROPERTIES")?.let { file(it) }
+        ?: rootProject.file("key.properties")
+val keyProperties = Properties().apply {
+    if (keyPropertiesFile.exists()) {
+        keyPropertiesFile.inputStream().use { load(it) }
+    }
+}
+val hasUploadKey = keyPropertiesFile.exists()
 
 android {
     namespace = "io.github.karan_ksrk.moksharan"
@@ -15,7 +30,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        // Permanent package ID; never change (CLAUDE.md).
         applicationId = "io.github.karan_ksrk.moksharan"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
@@ -33,11 +48,29 @@ android {
     // plain APKs (flutter run) report them unavailable.
     assetPacks += listOf(":chapter_02")
 
+    signingConfigs {
+        if (hasUploadKey) {
+            create("upload") {
+                storeFile = file(keyProperties.getProperty("storeFile"))
+                storePassword = keyProperties.getProperty("storePassword")
+                keyAlias = keyProperties.getProperty("keyAlias")
+                keyPassword = keyProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // Never signed with the debug key. Without key.properties the
+            // release output is unsigned and cannot be installed or
+            // uploaded (docs/RELEASE.md).
+            signingConfig =
+                if (hasUploadKey) signingConfigs.getByName("upload") else null
+            // Keeps classes R8 would wrongly strip (D-145).
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 }
