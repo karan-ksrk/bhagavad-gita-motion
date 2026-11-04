@@ -180,3 +180,17 @@ error for `processed` / `approved`. Approved assets need
 
 `source_id`, `kind`, `title`, `license` required; `author`, `year`,
 `decision_ref` (`D-NNN`), `notes` optional.
+
+## Adding verified verse text
+
+1. Open `assets/content/shlokas/chapter_NN.json` and find the verse.
+2. Copy text exactly from the chosen source (`sources.json`): Sanskrit
+   from `gita_press_700`, English from `telang_1882`.
+3. Set `"placeholder": false`, fill `sanskrit` (and `transliteration` if
+   available), and the translation `text`.
+4. Leave `text_status` as `draft` (or `source_verified` after checking
+   against the printed edition). Do not mark `scripture_approved`
+   without a named reviewer and date.
+5. Run `dart run tool/validate_content.dart`.
+
+Never type verse text from memory or from AI output.

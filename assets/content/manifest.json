@@ -21,7 +21,7 @@
     { "chapter_id": "chapter_17", "number": 17, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
     { "chapter_id": "chapter_18", "number": 18, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null }
   ],
-  "shloka_files": ["shlokas/chapter_01.json"],
+  "shloka_files": ["shlokas/chapter_01.json", "shlokas/chapter_02.json"],
   "media_manifest": "media_manifest.json",
   "sources": "sources.json"
 }

@@ -7,7 +7,10 @@
     {
       "scene_id": "ch01_scene_001",
       "order": 1,
-      "title": { "hi": null, "en": "[Pilot] The armies assembled" },
+      "title": {
+        "hi": null,
+        "en": "[Pilot] The armies assembled"
+      },
       "renderer": "cinematic",
       "media": {
         "poster": "ch01_scene001_poster",
@@ -18,18 +21,26 @@
           "dialogue_id": "ch01_s001_d001",
           "speaker_id": "narrator",
           "dialogue_type": "narration",
-          "text": { "hi": null, "en": "[Narration pending scripture review]" },
+          "text": {
+            "hi": null,
+            "en": "[Narration pending scripture review]"
+          },
           "reveal_order": 1,
           "text_status": "draft"
         }
       ],
-      "shloka_refs": ["BG.1.1"],
+      "shloka_refs": [
+        "BG.1.1"
+      ],
       "read_time_seconds": 20
     },
     {
       "scene_id": "ch01_scene_002",
       "order": 2,
-      "title": { "hi": null, "en": "[Pilot] Between the two armies" },
+      "title": {
+        "hi": null,
+        "en": "[Pilot] Between the two armies"
+      },
       "renderer": "cinematic",
       "media": {
         "poster": "ch01_scene002_poster",
@@ -41,17 +52,26 @@
           "dialogue_id": "ch01_s002_d001",
           "speaker_id": "narrator",
           "dialogue_type": "narration",
-          "text": { "hi": null, "en": "[Narration pending scripture review]" },
+          "text": {
+            "hi": null,
+            "en": "[Narration pending scripture review]"
+          },
           "reveal_order": 1,
           "text_status": "draft"
         }
       ],
-      "read_time_seconds": 20
+      "read_time_seconds": 20,
+      "shloka_refs": [
+        "BG.1.14"
+      ]
     },
     {
       "scene_id": "ch01_scene_003",
       "order": 3,
-      "title": { "hi": null, "en": "[Pilot] Arjuna's despair" },
+      "title": {
+        "hi": null,
+        "en": "[Pilot] Arjuna's despair"
+      },
       "renderer": "manga_panel",
       "panels": [
         {
@@ -68,7 +88,10 @@
               "dialogue_id": "ch01_s003_p001_d001",
               "speaker_id": "narrator",
               "dialogue_type": "narration",
-              "text": { "hi": null, "en": "[Narration pending scripture review]" },
+              "text": {
+                "hi": null,
+                "en": "[Narration pending scripture review]"
+              },
               "reveal_order": 1,
               "text_status": "draft"
             }
@@ -108,12 +131,18 @@
               "dialogue_id": "ch01_s003_p004_d001",
               "speaker_id": "narrator",
               "dialogue_type": "narration",
-              "text": { "hi": null, "en": "[Narration pending scripture review]" },
+              "text": {
+                "hi": null,
+                "en": "[Narration pending scripture review]"
+              },
               "reveal_order": 1,
               "text_status": "draft"
             }
           ]
         }
+      ],
+      "shloka_refs": [
+        "BG.1.28"
       ]
     }
   ]

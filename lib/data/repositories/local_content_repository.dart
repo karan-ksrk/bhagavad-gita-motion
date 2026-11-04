@@ -59,4 +59,19 @@ class LocalContentRepository implements ContentRepository {
   @override
   Future<List<MediaAsset>> mediaAssets() async =>
       List.unmodifiable((await _load()).mediaAssets);
+
+  @override
+  Future<List<Shloka>> shlokas() async {
+    final list = [...(await _load()).shlokas]
+      ..sort(
+        (a, b) => a.chapter != b.chapter
+            ? a.chapter.compareTo(b.chapter)
+            : a.verse.compareTo(b.verse),
+      );
+    return List.unmodifiable(list);
+  }
+
+  @override
+  Future<List<ContentSource>> sources() async =>
+      List.unmodifiable((await _load()).sources);
 }

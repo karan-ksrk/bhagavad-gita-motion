@@ -1,0 +1,282 @@
+{
+  "schema_version": 1,
+  "_comment": "PLACEHOLDER verse records for the MVP sample range (D-008). No Sanskrit or translation text until verified against D-003/D-004/D-005. Verse counts follow Gita Press numbering; verify.",
+  "chapter_id": "chapter_02",
+  "shlokas": [
+    {
+      "verse_id": "BG.2.1",
+      "chapter": 2,
+      "verse": 1,
+      "placeholder": true,
+      "sanskrit": null,
+      "transliteration": null,
+      "source_id": "gita_press_700",
+      "text_status": "draft",
+      "translations": [
+        {
+          "language": "en",
+          "text": null,
+          "source_id": "telang_1882",
+          "text_status": "draft"
+        },
+        {
+          "language": "hi",
+          "text": null,
+          "source_id": "app_original_hi",
+          "text_status": "draft"
+        }
+      ],
+      "word_meanings": []
+    },
+    {
+      "verse_id": "BG.2.2",
+      "chapter": 2,
+      "verse": 2,
+      "placeholder": true,
+      "sanskrit": null,
+      "transliteration": null,
+      "source_id": "gita_press_700",
+      "text_status": "draft",
+      "translations": [
+        {
+          "language": "en",
+          "text": null,
+          "source_id": "telang_1882",
+          "text_status": "draft"
+        },
+        {
+          "language": "hi",
+          "text": null,
+          "source_id": "app_original_hi",
+          "text_status": "draft"
+        }
+      ],
+      "word_meanings": []
+    },
+    {
+      "verse_id": "BG.2.3",
+      "chapter": 2,
+      "verse": 3,
+      "placeholder": true,
+      "sanskrit": null,
+      "transliteration": null,
+      "source_id": "gita_press_700",
+      "text_status": "draft",
+      "translations": [
+        {
+          "language": "en",
+          "text": null,
+          "source_id": "telang_1882",
+          "text_status": "draft"
+        },
+        {
+          "language": "hi",
+          "text": null,
+          "source_id": "app_original_hi",
+          "text_status": "draft"
+        }
+      ],
+      "word_meanings": []
+    },
+    {
+      "verse_id": "BG.2.4",
+      "chapter": 2,
+      "verse": 4,
+      "placeholder": true,
+      "sanskrit": null,
+      "transliteration": null,
+      "source_id": "gita_press_700",
+      "text_status": "draft",
+      "translations": [
+        {
+          "language": "en",
+          "text": null,
+          "source_id": "telang_1882",
+          "text_status": "draft"
+        },
+        {
+          "language": "hi",
+          "text": null,
+          "source_id": "app_original_hi",
+          "text_status": "draft"
+        }
+      ],
+      "word_meanings": []
+    },
+    {
+      "verse_id": "BG.2.5",
+      "chapter": 2,
+      "verse": 5,
+      "placeholder": true,
+      "sanskrit": null,
+      "transliteration": null,
+      "source_id": "gita_press_700",
+      "text_status": "draft",
+      "translations": [
+        {
+          "language": "en",
+          "text": null,
+          "source_id": "telang_1882",
+          "text_status": "draft"
+        },
+        {
+          "language": "hi",
+          "text": null,
+          "source_id": "app_original_hi",
+          "text_status": "draft"
+        }
+      ],
+      "word_meanings": []
+    },
+    {
+      "verse_id": "BG.2.6",
+      "chapter": 2,
+      "verse": 6,
+      "placeholder": true,
+      "sanskrit": null,
+      "transliteration": null,
+      "source_id": "gita_press_700",
+      "text_status": "draft",
+      "translations": [
+        {
+          "language": "en",
+          "text": null,
+          "source_id": "telang_1882",
+          "text_status": "draft"
+        },
+        {
+          "language": "hi",
+          "text": null,
+          "source_id": "app_original_hi",
+          "text_status": "draft"
+        }
+      ],
+      "word_meanings": []
+    },
+    {
+      "verse_id": "BG.2.7",
+      "chapter": 2,
+      "verse": 7,
+      "placeholder": true,
+      "sanskrit": null,
+      "transliteration": null,
+      "source_id": "gita_press_700",
+      "text_status": "draft",
+      "translations": [
+        {
+          "language": "en",
+          "text": null,
+          "source_id": "telang_1882",
+          "text_status": "draft"
+        },
+        {
+          "language": "hi",
+          "text": null,
+          "source_id": "app_original_hi",
+          "text_status": "draft"
+        }
+      ],
+      "word_meanings": []
+    },
+    {
+      "verse_id": "BG.2.8",
+      "chapter": 2,
+      "verse": 8,
+      "placeholder": true,
+      "sanskrit": null,
+      "transliteration": null,
+      "source_id": "gita_press_700",
+      "text_status": "draft",
+      "translations": [
+        {
+          "language": "en",
+          "text": null,
+          "source_id": "telang_1882",
+          "text_status": "draft"
+        },
+        {
+          "language": "hi",
+          "text": null,
+          "source_id": "app_original_hi",
+          "text_status": "draft"
+        }
+      ],
+      "word_meanings": []
+    },
+    {
+      "verse_id": "BG.2.9",
+      "chapter": 2,
+      "verse": 9,
+      "placeholder": true,
+      "sanskrit": null,
+      "transliteration": null,
+      "source_id": "gita_press_700",
+      "text_status": "draft",
+      "translations": [
+        {
+          "language": "en",
+          "text": null,
+          "source_id": "telang_1882",
+          "text_status": "draft"
+        },
+        {
+          "language": "hi",
+          "text": null,
+          "source_id": "app_original_hi",
+          "text_status": "draft"
+        }
+      ],
+      "word_meanings": []
+    },
+    {
+      "verse_id": "BG.2.10",
+      "chapter": 2,
+      "verse": 10,
+      "placeholder": true,
+      "sanskrit": null,
+      "transliteration": null,
+      "source_id": "gita_press_700",
+      "text_status": "draft",
+      "translations": [
+        {
+          "language": "en",
+          "text": null,
+          "source_id": "telang_1882",
+          "text_status": "draft"
+        },
+        {
+          "language": "hi",
+          "text": null,
+          "source_id": "app_original_hi",
+          "text_status": "draft"
+        }
+      ],
+      "word_meanings": []
+    },
+    {
+      "verse_id": "BG.2.11",
+      "chapter": 2,
+      "verse": 11,
+      "placeholder": true,
+      "sanskrit": null,
+      "transliteration": null,
+      "source_id": "gita_press_700",
+      "text_status": "draft",
+      "translations": [
+        {
+          "language": "en",
+          "text": null,
+          "source_id": "telang_1882",
+          "text_status": "draft"
+        },
+        {
+          "language": "hi",
+          "text": null,
+          "source_id": "app_original_hi",
+          "text_status": "draft"
+        }
+      ],
+      "word_meanings": []
+    }
+  ]
+}

@@ -69,6 +69,9 @@
           },
           "transition": "slide"
         }
+      ],
+      "shloka_refs": [
+        "BG.2.1"
       ]
     },
     {
@@ -146,6 +149,9 @@
           "reveal_order": 1,
           "text_status": "draft"
         }
+      ],
+      "shloka_refs": [
+        "BG.2.10"
       ]
     }
   ]
