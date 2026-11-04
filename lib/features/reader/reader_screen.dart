@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moksharan/core/animation/layered_motion_view.dart';
 import 'package:moksharan/core/media/cinematic_video_view.dart';
 import 'package:moksharan/core/routing/app_router.dart';
+import 'package:moksharan/core/settings/app_settings.dart';
 import 'package:moksharan/core/theme/app_colors.dart';
 import 'package:moksharan/core/theme/app_tokens.dart';
 import 'package:moksharan/core/widgets/sample_badge.dart';
@@ -10,12 +12,13 @@ import 'package:moksharan/core/widgets/state_views.dart';
 import 'package:moksharan/data/repositories/content_providers.dart';
 import 'package:moksharan/domain/entities/content.dart';
 import 'package:moksharan/domain/gita_structure.dart';
+import 'package:moksharan/features/reader/dialogue_overlay.dart';
 
 /// Full-screen reader. Swipes between a chapter's scenes.
 ///
-/// Milestone 6 scope: cinematic scenes play through [CinematicVideoView];
-/// manga and layered scenes show their stills until their renderers
-/// arrive in Milestones 7-8.
+/// Cinematic scenes play through [CinematicVideoView]; layered scenes use
+/// [LayeredMotionView]; manga scenes show their first panel until the
+/// manga renderer arrives in Milestone 8.
 class ReaderScreen extends ConsumerWidget {
   const new({required this.chapter, super.key});
 
@@ -119,31 +122,59 @@ class _NoScenes extends StatelessWidget {
   }
 }
 
-class _ScenePager extends StatefulWidget {
+class _ScenePager extends ConsumerStatefulWidget {
   const new({required this.scenes, required this.paths});
 
   final List<Scene> scenes;
   final Map<String, String> paths;
 
   @override
-  State<_ScenePager> createState() => _ScenePagerState();
+  ConsumerState<_ScenePager> createState() => _ScenePagerState();
 }
 
-class _ScenePagerState extends State<_ScenePager> {
+class _ScenePagerState extends ConsumerState<_ScenePager> {
   late final List<Scene> _scenes = [...widget.scenes]
     ..sort((a, b) => a.order.compareTo(b.order));
+  final _pageController = PageController();
   int _index = 0;
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final reduceMotion =
+        ref.watch(settingsProvider.select((s) => s.reducedMotion)) ||
+        MediaQuery.disableAnimationsOf(context);
+
     return Stack(
       children: [
         PageView.builder(
+          controller: _pageController,
           itemCount: _scenes.length,
           onPageChanged: (i) => setState(() => _index = i),
-          itemBuilder: (context, i) =>
-              _ScenePage(scene: _scenes[i], paths: widget.paths),
+          itemBuilder: (context, i) {
+            final page = _ScenePage(scene: _scenes[i], paths: widget.paths);
+            if (reduceMotion) return page;
+            // Scene transition: neighbours fade as they slide.
+            return AnimatedBuilder(
+              animation: _pageController,
+              child: page,
+              builder: (context, child) {
+                final position =
+                    _pageController.hasClients &&
+                        _pageController.position.haveDimensions
+                    ? _pageController.page ?? _index.toDouble()
+                    : _index.toDouble();
+                final distance = (position - i).abs().clamp(0.0, 1.0);
+                return Opacity(opacity: 1 - distance * 0.6, child: child);
+              },
+            );
+          },
         ),
         SafeArea(
           child: Align(
@@ -183,11 +214,16 @@ class _ScenePage extends StatelessWidget {
         videoAsset: _path(media.videoAssetId),
         loop: media.videoLoop,
       ),
-      RendererType.layeredMotion => CinematicVideoView(
+      RendererType.layeredMotion => LayeredMotionView(
         key: ValueKey(scene.sceneId),
-        posterAsset: _path(media.backgroundAssetId ?? media.posterAssetId),
-        showControls: false,
+        backgroundAsset: _path(media.backgroundAssetId ?? media.posterAssetId),
+        layerAssets: [
+          for (final id in media.layerAssetIds)
+            if (paths[id] != null) paths[id]!,
+        ],
+        effects: scene.effects,
       ),
+      // Full manga renderer arrives in Milestone 8; first panel for now.
       RendererType.mangaPanel => CinematicVideoView(
         key: ValueKey(scene.sceneId),
         posterAsset: scene.panels.isEmpty
@@ -197,6 +233,9 @@ class _ScenePage extends StatelessWidget {
       ),
     };
 
+    final dialogues = scene.allDialogues.toList();
+    final title = scene.title.en ?? scene.title.hi ?? scene.sceneId;
+
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -204,44 +243,13 @@ class _ScenePage extends StatelessWidget {
         Positioned(
           left: AppSpacing.md,
           right: AppSpacing.md,
-          bottom: AppSpacing.xl,
-          child: SafeArea(top: false, child: _SceneCaption(scene: scene)),
+          bottom: AppSpacing.lg,
+          child: SafeArea(
+            top: false,
+            child: DialogueOverlay(dialogues: dialogues, title: title),
+          ),
         ),
       ],
-    );
-  }
-}
-
-/// Temporary caption until dialogue reveal (Milestone 8).
-class _SceneCaption extends StatelessWidget {
-  const new({required this.scene});
-
-  final Scene scene;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final title = scene.title.en ?? scene.title.hi ?? scene.sceneId;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.midnight.withValues(alpha: 0.7),
-        borderRadius: AppRadius.card,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(title, style: textTheme.titleMedium),
-            const SizedBox(height: AppSpacing.xs),
-            Text(
-              '${scene.renderer.wire} · text pending scripture review',
-              style: textTheme.bodySmall,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

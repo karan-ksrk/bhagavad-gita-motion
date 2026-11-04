@@ -138,6 +138,8 @@ Status values: `proposed`, `approved`, `pending`, `superseded`.
 | D-126 | Flow videos held back | -- | All three Flow clips carry the visible Veo watermark and the Scene 1 clip does not loop. Videos stay `draft` until regenerated on a plan without the visible watermark, or a watermark-removal decision is recorded after checking Google's terms | approved |
 | D-127 | `video_player` ^2.14.1 | -- | Platform-native playback (ExoPlayer on Android), roadmap §3. Wrapped behind `ScenePlayer` so tests use a fake and the backend can change | approved |
 | D-128 | Temporary videos in the app | -- | Owner chose to ship current Flow clips into `assets/videos/` now (watermark, scene 1 not seamless) and replace them later; supersedes the hold in D-126. Marked `notes_temporary` in the manifest | approved |
+| D-129 | Motion system design | -- | One repeating 20 s AnimationController per layered scene drives all effects (stops when off-screen via TickerMode; does not run with reduced motion). Effects are CustomPainters with cached shaders and pre-generated particle data (no per-frame allocation). Anchors map through a BoxFit.cover rect so effects stay on the art. Feather effect is a glint until a Krishna layer exists (D-125) | approved |
+| D-130 | Dialogue labels | -- | Every dialogue line shows its kind (Retelling, Narration, Paraphrase of BG.x.y, Translation of BG.x.y); verse-derived lines use a blue badge and upright text, creative lines italic | approved |
 | D-119 | In-memory settings | -- | Language, transliteration, and reduced-motion settings live in a Riverpod `Notifier` until persistence in Milestone 10. UI strings stay English until localization in Milestone 9 | approved |
 
 ------------------------------------------------------------------------
