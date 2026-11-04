@@ -136,6 +136,8 @@ Status values: `proposed`, `approved`, `pending`, `superseded`.
 | D-124 | Reference images in Git | -- | Approved Milestone 4 references (~47 MB, 20 PNGs) committed directly; revisit Git LFS or external storage before production media grows | approved |
 | D-125 | Scene 5 without a separate Krishna layer | -- | ChatGPT re-rendered the whole poster, so a difference cut-out failed; `rembg`/`onnxruntime` crashes on the installed Python 3.14. Scene 5 uses the poster as its background; aura and particles draw on top. Feather animation needs a Krishna layer: revisit with a Python 3.12 environment or a manual cut-out | approved |
 | D-126 | Flow videos held back | -- | All three Flow clips carry the visible Veo watermark and the Scene 1 clip does not loop. Videos stay `draft` until regenerated on a plan without the visible watermark, or a watermark-removal decision is recorded after checking Google's terms | approved |
+| D-127 | `video_player` ^2.14.1 | -- | Platform-native playback (ExoPlayer on Android), roadmap §3. Wrapped behind `ScenePlayer` so tests use a fake and the backend can change | approved |
+| D-128 | Temporary videos in the app | -- | Owner chose to ship current Flow clips into `assets/videos/` now (watermark, scene 1 not seamless) and replace them later; supersedes the hold in D-126. Marked `notes_temporary` in the manifest | approved |
 | D-119 | In-memory settings | -- | Language, transliteration, and reduced-motion settings live in a Riverpod `Notifier` until persistence in Milestone 10. UI strings stay English until localization in Milestone 9 | approved |
 
 ------------------------------------------------------------------------

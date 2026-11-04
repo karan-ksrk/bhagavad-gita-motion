@@ -77,7 +77,7 @@ Localized text is an object `{ "hi": string|null, "en": string|null }`.
 | `order` | yes | Unique within the chapter |
 | `title` | yes | Localized text |
 | `renderer` | yes | See enumerations |
-| `media` | per renderer | `poster`, `video`, `background`, `layers[]`: asset IDs |
+| `media` | per renderer | `poster`, `video`, `background`, `layers[]`: asset IDs; `video_loop` (default `true`; `false` plays once and holds the last frame) |
 | `effects` | no | See below |
 | `dialogues` | no | Scene-level lines |
 | `panels` | manga only | See below |

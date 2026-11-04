@@ -96,10 +96,14 @@ class SceneMedia {
     this.videoAssetId,
     this.backgroundAssetId,
     this.layerAssetIds = const [],
+    this.videoLoop = true,
   });
 
   final String? posterAssetId;
   final String? videoAssetId;
+
+  /// Loop the video (true) or play once and hold the last frame (false).
+  final bool videoLoop;
   final String? backgroundAssetId;
   final List<String> layerAssetIds;
 

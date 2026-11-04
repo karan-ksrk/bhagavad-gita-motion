@@ -33,7 +33,8 @@
       "renderer": "cinematic",
       "media": {
         "poster": "ch01_scene002_poster",
-        "video": "ch01_scene002_loop"
+        "video": "ch01_scene002_loop",
+        "video_loop": false
       },
       "dialogues": [
         {
