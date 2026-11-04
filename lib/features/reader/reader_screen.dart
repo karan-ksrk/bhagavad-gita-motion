@@ -8,7 +8,9 @@ import 'package:moksharan/core/theme/app_tokens.dart';
 import 'package:moksharan/core/widgets/sample_badge.dart';
 import 'package:moksharan/core/widgets/state_views.dart';
 import 'package:moksharan/data/repositories/content_providers.dart';
+import 'package:moksharan/data/repositories/user_data_providers.dart';
 import 'package:moksharan/domain/entities/content.dart';
+import 'package:moksharan/domain/entities/user_data.dart';
 import 'package:moksharan/domain/gita_structure.dart';
 import 'package:moksharan/features/reader/renderers/scene_renderer.dart';
 
@@ -17,9 +19,12 @@ import 'package:moksharan/features/reader/renderers/scene_renderer.dart';
 /// Each scene is drawn by [SceneRenderer]; the reader adds progress,
 /// previous/next buttons, and the verse chip.
 class ReaderScreen extends ConsumerWidget {
-  const new({required this.chapter, super.key});
+  const new({required this.chapter, super.key, this.initialSceneId});
 
   final int chapter;
+
+  /// Scene to open; when null, resumes at the saved scene.
+  final String? initialSceneId;
 
   String get _chapterId => 'chapter_${chapter.toString().padLeft(2, '0')}';
 
@@ -46,7 +51,12 @@ class ReaderScreen extends ConsumerWidget {
         (AsyncData(value: final c), AsyncData(value: final p)) =>
           c[_chapterId] == null
               ? _NoScenes(chapter: chapter)
-              : _ScenePager(scenes: c[_chapterId]!.scenes, paths: p),
+              : _ScenePager(
+                  chapterId: _chapterId,
+                  scenes: c[_chapterId]!.scenes,
+                  paths: p,
+                  initialSceneId: initialSceneId,
+                ),
         (AsyncError(), _) || (_, AsyncError()) => ErrorView(
           title: 'Scenes could not be loaded',
           action: FilledButton(
@@ -120,8 +130,15 @@ class _NoScenes extends StatelessWidget {
 }
 
 class _ScenePager extends ConsumerStatefulWidget {
-  const new({required this.scenes, required this.paths});
+  const new({
+    required this.chapterId,
+    required this.scenes,
+    required this.paths,
+    this.initialSceneId,
+  });
 
+  final String chapterId;
+  final String? initialSceneId;
   final List<Scene> scenes;
   final Map<String, String> paths;
 
@@ -132,8 +149,31 @@ class _ScenePager extends ConsumerStatefulWidget {
 class _ScenePagerState extends ConsumerState<_ScenePager> {
   late final List<Scene> _scenes = [...widget.scenes]
     ..sort((a, b) => a.order.compareTo(b.order));
-  final _pageController = PageController();
-  int _index = 0;
+  late final PageController _pageController;
+  late int _index;
+
+  @override
+  void initState() {
+    super.initState();
+    final wanted =
+        widget.initialSceneId ??
+        ref.read(progressProvider).byChapter[widget.chapterId]?.sceneId;
+    final found = _scenes.indexWhere((s) => s.sceneId == wanted);
+    _index = found < 0 ? 0 : found;
+    _pageController = PageController(initialPage: _index);
+    // Providers cannot change while the tree builds: record after frame.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _record());
+  }
+
+  void _record() {
+    if (!mounted) return;
+    ref
+        .read(progressProvider.notifier)
+        .recordScene(
+          chapterId: widget.chapterId,
+          sceneId: _scenes[_index].sceneId,
+        );
+  }
 
   @override
   void dispose() {
@@ -166,7 +206,10 @@ class _ScenePagerState extends ConsumerState<_ScenePager> {
         PageView.builder(
           controller: _pageController,
           itemCount: _scenes.length,
-          onPageChanged: (i) => setState(() => _index = i),
+          onPageChanged: (i) {
+            setState(() => _index = i);
+            _record();
+          },
           itemBuilder: (context, i) {
             final page = SceneRenderer.forScene(_scenes[i], widget.paths);
             if (reduceMotion) return page;
@@ -213,6 +256,15 @@ class _ScenePagerState extends ConsumerState<_ScenePager> {
               right: 56,
             ),
             child: _SceneProgress(index: _index, count: _scenes.length),
+          ),
+        ),
+        SafeArea(
+          child: Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.xs),
+              child: _SceneBookmarkButton(sceneId: scene.sceneId),
+            ),
           ),
         ),
         if (scene.shlokaRefs.isNotEmpty)
@@ -342,6 +394,30 @@ class _EdgeButton extends StatelessWidget {
           onPressed: onPressed,
         ),
       ),
+    );
+  }
+}
+
+class _SceneBookmarkButton extends ConsumerWidget {
+  const new({required this.sceneId});
+
+  final String sceneId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final saved = ref.watch(
+      bookmarksProvider.select(
+        (list) => list.any((b) => b.bookmarkId == Bookmark.idForScene(sceneId)),
+      ),
+    );
+    return IconButton(
+      tooltip: saved ? 'Remove scene bookmark' : 'Bookmark scene',
+      icon: Icon(
+        saved ? Icons.bookmark : Icons.bookmark_border,
+        color: saved ? AppColors.gold : AppColors.ivory,
+      ),
+      onPressed: () =>
+          ref.read(bookmarksProvider.notifier).toggleScene(sceneId),
     );
   }
 }

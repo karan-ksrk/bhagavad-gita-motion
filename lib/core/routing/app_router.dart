@@ -8,6 +8,7 @@ import 'package:moksharan/features/chapters/chapter_detail_screen.dart';
 import 'package:moksharan/features/chapters/chapters_screen.dart';
 import 'package:moksharan/features/home/home_screen.dart';
 import 'package:moksharan/features/reader/reader_screen.dart';
+import 'package:moksharan/features/settings/about_screen.dart';
 import 'package:moksharan/features/settings/settings_screen.dart';
 import 'package:moksharan/features/shloka/shloka_screen.dart';
 
@@ -20,7 +21,13 @@ abstract final class AppRoutes {
   static const settings = '/settings';
 
   static String chapter(int number) => '/chapters/$number';
-  static String reader(int chapter) => '/read/$chapter';
+  static const about = '/about';
+
+  /// Reader for [chapter]; [sceneId] opens a specific scene, otherwise
+  /// the reader resumes at the saved position.
+  static String reader(int chapter, {String? sceneId}) => sceneId == null
+      ? '/read/$chapter'
+      : '/read/$chapter?scene=${Uri.encodeQueryComponent(sceneId)}';
   static String shloka(String verseId) => '/shloka/$verseId';
 }
 
@@ -86,8 +93,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         parentNavigatorKey: _rootNavigatorKey,
         path: '/read/:chapter',
-        builder: (context, state) =>
-            ReaderScreen(chapter: _chapterParam(state)),
+        builder: (context, state) => ReaderScreen(
+          chapter: _chapterParam(state),
+          initialSceneId: state.uri.queryParameters['scene'],
+        ),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: AppRoutes.about,
+        builder: (context, state) => const AboutScreen(),
       ),
       GoRoute(
         parentNavigatorKey: _rootNavigatorKey,

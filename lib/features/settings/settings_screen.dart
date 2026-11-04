@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:moksharan/core/routing/app_router.dart';
 import 'package:moksharan/core/settings/app_settings.dart';
 import 'package:moksharan/core/theme/app_colors.dart';
 import 'package:moksharan/core/theme/app_tokens.dart';
 import 'package:moksharan/core/widgets/content_width.dart';
+import 'package:moksharan/data/repositories/user_data_providers.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const new({super.key});
@@ -73,20 +76,58 @@ class SettingsScreen extends ConsumerWidget {
                 onChanged: (value) => controller.setReducedMotion(value: value),
               ),
               const Divider(),
+              const _SectionHeader('Reading'),
+              ListTile(
+                leading: const Icon(Icons.restart_alt),
+                title: const Text('Clear reading progress'),
+                subtitle: const Text('Bookmarks are kept'),
+                onTap: () => _confirmClearProgress(context, ref),
+              ),
+              const Divider(),
               const _SectionHeader('About'),
-              const ListTile(
-                leading: Icon(Icons.info_outline),
-                title: Text('Moksharan'),
-                subtitle: Text(
-                  'Foundation build. Settings are not saved yet '
-                  '(Milestone 10).',
-                ),
+              ListTile(
+                leading: const Icon(Icons.info_outline),
+                title: const Text('About and sources'),
+                subtitle: const Text('Attribution for text, font, and media'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push(AppRoutes.about),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+Future<void> _confirmClearProgress(BuildContext context, WidgetRef ref) async {
+  final confirmed = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Clear reading progress?'),
+      content: const Text(
+        'Your place in every chapter will be forgotten. '
+        'Bookmarks and settings are kept.',
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(false),
+          child: const Text('Cancel'),
+        ),
+        FilledButton(
+          onPressed: () => Navigator.of(context).pop(true),
+          child: const Text('Clear'),
+        ),
+      ],
+    ),
+  );
+  if (confirmed ?? false) {
+    await ref.read(progressProvider.notifier).clear();
+    if (context.mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Reading progress cleared')));
+    }
   }
 }
 

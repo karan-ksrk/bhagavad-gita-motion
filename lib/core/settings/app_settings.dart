@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moksharan/data/repositories/user_data_providers.dart';
 
 /// UI and translation language. Sanskrit verse text is always shown and
 /// is not a selectable UI language (decision D-104).
@@ -21,9 +24,30 @@ class AppSettings {
     this.reducedMotion = false,
   });
 
+  /// Unknown or missing values fall back to defaults.
+  factory fromJson(Map<String, Object?> json) {
+    const d = AppSettings();
+    final code = json['language'];
+    return AppSettings(
+      language: AppLanguage.values.firstWhere(
+        (l) => l.code == code,
+        orElse: () => d.language,
+      ),
+      showTransliteration:
+          json['show_transliteration'] as bool? ?? d.showTransliteration,
+      reducedMotion: json['reduced_motion'] as bool? ?? d.reducedMotion,
+    );
+  }
+
   final AppLanguage language;
   final bool showTransliteration;
   final bool reducedMotion;
+
+  Map<String, Object?> toJson() => {
+    'language': language.code,
+    'show_transliteration': showTransliteration,
+    'reduced_motion': reducedMotion,
+  };
 
   AppSettings copyWith({
     AppLanguage? language,
@@ -38,19 +62,27 @@ class AppSettings {
   }
 }
 
-/// In-memory settings. Persistence is added in Milestone 10.
+/// Settings, saved locally on every change (D-136).
 class SettingsController extends Notifier<AppSettings> {
   @override
-  AppSettings build() => const AppSettings();
+  AppSettings build() {
+    final json = ref.watch(userDataRepositoryProvider).loadSettings();
+    return json == null ? const AppSettings() : AppSettings.fromJson(json);
+  }
+
+  void _update(AppSettings next) {
+    state = next;
+    unawaited(ref.read(userDataRepositoryProvider).saveSettings(next.toJson()));
+  }
 
   void setLanguage(AppLanguage language) =>
-      state = state.copyWith(language: language);
+      _update(state.copyWith(language: language));
 
   void setShowTransliteration({required bool value}) =>
-      state = state.copyWith(showTransliteration: value);
+      _update(state.copyWith(showTransliteration: value));
 
   void setReducedMotion({required bool value}) =>
-      state = state.copyWith(reducedMotion: value);
+      _update(state.copyWith(reducedMotion: value));
 }
 
 final settingsProvider = NotifierProvider<SettingsController, AppSettings>(

@@ -6,6 +6,8 @@ import 'package:moksharan/core/settings/app_settings.dart';
 import 'package:moksharan/domain/entities/content.dart';
 import 'package:moksharan/features/reader/dialogue_overlay.dart';
 
+import '../helpers/prefs.dart';
+
 Effect _effect(
   String id,
   EffectType type, {
@@ -38,7 +40,7 @@ Future<ProviderContainer> _pump(
   bool reducedMotion = false,
   AppLanguage language = AppLanguage.english,
 }) async {
-  final container = ProviderContainer();
+  final container = ProviderContainer(overrides: [await prefsOverride()]);
   addTearDown(container.dispose);
   container.read(settingsProvider.notifier)
     ..setReducedMotion(value: reducedMotion)

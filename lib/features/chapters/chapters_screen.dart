@@ -10,6 +10,7 @@ import 'package:moksharan/core/widgets/content_width.dart';
 import 'package:moksharan/core/widgets/sample_badge.dart';
 import 'package:moksharan/core/widgets/state_views.dart';
 import 'package:moksharan/data/repositories/content_providers.dart';
+import 'package:moksharan/data/repositories/user_data_providers.dart';
 import 'package:moksharan/domain/entities/content.dart';
 
 class ChaptersScreen extends ConsumerWidget {
@@ -64,9 +65,30 @@ class ChapterTile extends ConsumerWidget {
           : ContentLanguage.english,
     );
     final subtitle = title ?? 'Title pending verification';
+    final scenes =
+        ref.watch(chapterContentsProvider).value?[chapter.chapterId]?.scenes ??
+        const <Scene>[];
+    final sceneIds = {for (final sc in scenes) sc.sceneId};
+    final visited = ref.watch(
+      progressProvider.select(
+        (p) =>
+            p.byChapter[chapter.chapterId]?.visitedSceneIds ?? const <String>{},
+      ),
+    );
+    final read = visited.intersection(sceneIds).length;
+    final progressText = sceneIds.isEmpty || read == 0
+        ? null
+        : read == sceneIds.length
+        ? 'All ${sceneIds.length} scenes read'
+        : '$read of ${sceneIds.length} scenes read';
 
     return AppCard(
-      semanticLabel: 'Chapter $n, $subtitle${chapter.sample ? ', sample' : ''}',
+      semanticLabel: [
+        'Chapter $n',
+        subtitle,
+        ?progressText,
+        if (chapter.sample) 'sample',
+      ].join(', '),
       onTap: () => context.go(AppRoutes.chapter(n)),
       child: Row(
         children: [
@@ -87,6 +109,23 @@ class ChapterTile extends ConsumerWidget {
                 Text('Chapter $n', style: textTheme.titleMedium),
                 const SizedBox(height: AppSpacing.xs),
                 Text(subtitle, style: textTheme.bodySmall),
+                if (progressText != null) ...[
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(
+                    progressText,
+                    style: textTheme.bodySmall?.copyWith(color: AppColors.gold),
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(2),
+                    child: LinearProgressIndicator(
+                      value: read / sceneIds.length,
+                      minHeight: 3,
+                      color: AppColors.gold,
+                      backgroundColor: AppColors.outline,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
