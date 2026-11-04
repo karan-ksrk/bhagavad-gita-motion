@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moksharan/core/media/media_lifecycle_manager.dart';
 import 'package:moksharan/core/media/media_providers.dart';
+import 'package:moksharan/core/media/media_source.dart';
 import 'package:moksharan/core/media/scene_player.dart';
 import 'package:moksharan/core/settings/app_settings.dart';
 import 'package:moksharan/core/theme/app_colors.dart';
@@ -116,8 +117,8 @@ class _CinematicVideoViewState extends ConsumerState<CinematicVideoView> {
       children: [
         const ColoredBox(color: Colors.black),
         if (poster != null)
-          Image.asset(
-            poster,
+          Image(
+            image: mediaImageProvider(poster),
             fit: BoxFit.cover,
             errorBuilder: (_, _, _) =>
                 const ColoredBox(color: AppColors.midnight),

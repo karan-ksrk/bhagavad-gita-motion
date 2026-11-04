@@ -61,6 +61,13 @@ Localized text is an object `{ "hi": string|null, "en": string|null }`.
       "text_status": "draft",
       "sample": true,
       "scenes_file": "chapters/chapter_01.json"
+    },
+    {
+      "chapter_id": "chapter_02",
+      "number": 2,
+      "...": "...",
+      "scenes_file": "chapters/chapter_02.json",
+      "media_pack": "chapter_02"
     }
   ],
   "shloka_files": ["shlokas/chapter_01.json"],
@@ -68,6 +75,10 @@ Localized text is an object `{ "hi": string|null, "en": string|null }`.
   "sources": "sources.json"
 }
 ```
+
+`media_pack` (optional): the chapter's media ships in this on-demand
+Play asset pack instead of the app bundle (D-139). It must equal the
+`chapter_id`. Omit it for bundled chapters (the sample, chapter 1).
 
 ## Scene (in chapters/chapter_NN.json)
 
@@ -171,6 +182,21 @@ at least one language), optional `transition` and `dialogues`.
 | `duration_ms` | approved video/audio | |
 | `checksum_sha256` | approved | |
 | `size_bytes`, `codec`, `prompt_id`, `character_refs` | no | |
+| `pack` | no | Asset pack that delivers the file (a chapter ID). The file then lives at `android/<pack>/src/main/assets/<path>`, not under `assets/` |
+
+### Asset packs
+
+- Only scenes of the chapter whose `media_pack` matches may use an asset
+  with `pack`; bundled assets may be used by any chapter.
+- `size_bytes` of pack assets is summed to show the download size until
+  Play reports its own figure, so fill it in.
+- To move a chapter into a pack: create `android/chapter_NN/build.gradle.kts`
+  (copy `chapter_02`), add it to `include(...)` in
+  `android/settings.gradle.kts` and to `assetPacks` in
+  `android/app/build.gradle.kts`, `git mv` its files into
+  `android/chapter_NN/src/main/assets/`, set `pack` on each asset and
+  `media_pack` on the chapter, then run the validator.
+- Test on a device with `tool/install_with_packs.sh` (D-141).
 
 A missing file is a warning for `draft` / `continuity_approved` and an
 error for `processed` / `approved`. Approved assets need

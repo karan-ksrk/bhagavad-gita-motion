@@ -27,8 +27,9 @@ class ValidationIssue {
 class ContentValidator {
   new({required this.assetExists, this.release = false});
 
-  /// Whether a media file exists, by path relative to `assets/`.
-  final bool Function(String assetPath) assetExists;
+  /// Whether an asset's file exists: under `assets/` when bundled, or in
+  /// its asset pack's assets folder when `pack` is set.
+  final bool Function(MediaAsset asset) assetExists;
   final bool release;
 
   static final _chapterIdPattern = RegExp(r'^chapter_(\d{2})$');
@@ -37,6 +38,9 @@ class ContentValidator {
     r'^[a-z0-9_]+(/[a-z0-9_]+)*\.(webp|png|jpg|mp4|m4a|mp3|json|riv)$',
   );
   static final _decisionPattern = RegExp(r'^D-\d{3}$');
+
+  /// Asset pack names are the chapter ID of the chapter they deliver.
+  static final RegExp _packPattern = _chapterIdPattern;
 
   static const Map<MediaType, Set<String>> _extensionsByType = {
     MediaType.image: {'webp', 'png', 'jpg'},
@@ -69,6 +73,9 @@ class _Run {
   final Map<String, MediaAsset> assetsById;
   final Map<String, Shloka> shlokasById;
   final Set<String> referencedAssets = {};
+
+  /// Media pack of the chapter whose scenes are being checked.
+  String? currentPack;
 
   void error(String at, String msg) =>
       issues.add(ValidationIssue(Severity.error, at, msg));
@@ -126,9 +133,14 @@ class _Run {
       final produced =
           a.assetStatus == AssetStatus.processed ||
           a.assetStatus == AssetStatus.approved;
-      if (!v.assetExists(a.path)) {
+      final pack = a.pack;
+      if (pack != null && !ContentValidator._packPattern.hasMatch(pack)) {
+        error(loc, 'pack "$pack" must be a chapter ID like chapter_02');
+      }
+      if (!v.assetExists(a)) {
+        final where = pack == null ? 'assets/' : 'asset pack $pack: ';
         if (produced) {
-          error(loc, 'file assets/${a.path} is missing');
+          error(loc, 'file $where${a.path} is missing');
         } else {
           warn(loc, 'file not produced yet (asset_status draft)');
         }
@@ -252,8 +264,20 @@ class _Run {
         releaseError(loc, 'text_status must be published');
       }
 
+      final pack = c.mediaPack;
+      if (pack != null && pack != c.chapterId) {
+        error(
+          loc,
+          'media_pack must be "${c.chapterId}" (one pack per chapter)',
+        );
+      }
+      if (pack != null && !b.mediaAssets.any((a) => a.pack == pack)) {
+        warn(loc, 'media_pack "$pack" has no assets in the media manifest');
+      }
+
       final file = c.scenesFile;
       if (file == null) continue;
+      currentPack = pack;
       final content = b.chapterContents[file];
       if (content == null) continue; // Load would have failed first.
       if (content.chapterId != c.chapterId) {
@@ -394,6 +418,14 @@ class _Run {
     }
     if (asset.assetStatus != AssetStatus.approved) {
       releaseError(loc, '$field "$id" is not approved');
+    }
+    final pack = asset.pack;
+    if (pack != null && pack != currentPack) {
+      error(
+        loc,
+        '$field "$id" is in asset pack "$pack", which this chapter does '
+        'not download${currentPack == null ? '' : ' (uses "$currentPack")'}',
+      );
     }
   }
 

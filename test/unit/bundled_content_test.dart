@@ -18,7 +18,11 @@ void main() {
 
   test('bundled content has no development-mode errors', () {
     final issues = ContentValidator(
-      assetExists: (path) => File('assets/$path').existsSync(),
+      assetExists: (a) => File(
+        a.pack == null
+            ? 'assets/${a.path}'
+            : 'android/${a.pack}/src/main/assets/${a.path}',
+      ).existsSync(),
     ).validate(bundle);
 
     expect([

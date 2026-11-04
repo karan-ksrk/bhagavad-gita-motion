@@ -7,9 +7,11 @@ import 'package:go_router/go_router.dart';
 import 'package:moksharan/app.dart';
 import 'package:moksharan/core/media/media_providers.dart';
 import 'package:moksharan/core/routing/app_router.dart';
+import 'package:moksharan/data/asset_packs/asset_pack_providers.dart';
 import 'package:moksharan/data/repositories/content_providers.dart';
 import 'package:moksharan/data/repositories/local_content_repository.dart';
 
+import 'fake_asset_pack_service.dart';
 import 'fake_scene_player.dart';
 import 'prefs.dart';
 
@@ -24,6 +26,7 @@ Future<ProviderContainer> pumpApp(
   double textScale = 1,
   bool disableAnimations = false,
   Map<String, Object> prefs = const {},
+  FakeAssetPackService? packs,
 }) async {
   final prefsOverrideValue = await prefsOverride(prefs);
   // Real content files, read synchronously: rootBundle's async I/O does
@@ -36,6 +39,11 @@ Future<ProviderContainer> pumpApp(
         ),
       ),
       prefsOverrideValue,
+      // Chapter packs installed from their repo folders unless a test
+      // passes its own fake.
+      assetPackServiceProvider.overrideWithValue(
+        packs ?? FakeAssetPackService.installed(const ['chapter_02']),
+      ),
       // No platform video decoder in widget tests.
       scenePlayerFactoryProvider.overrideWithValue(FakePlayerFactory().call),
     ],

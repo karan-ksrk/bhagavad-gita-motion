@@ -83,6 +83,13 @@ class SettingsScreen extends ConsumerWidget {
                 subtitle: const Text('Bookmarks are kept'),
                 onTap: () => _confirmClearProgress(context, ref),
               ),
+              ListTile(
+                leading: const Icon(Icons.storage),
+                title: const Text('Storage'),
+                subtitle: const Text('Downloaded chapters and free space'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push(AppRoutes.storage),
+              ),
               const Divider(),
               const _SectionHeader('About'),
               ListTile(

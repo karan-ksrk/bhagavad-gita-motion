@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:moksharan/core/media/media_source.dart';
 import 'package:moksharan/core/media/scene_player.dart';
 import 'package:video_player/video_player.dart';
 
@@ -32,10 +35,13 @@ class VideoScenePlayer implements ScenePlayer {
     _loop = loop;
     _set(_state.value.copyWith(status: PlayerStatus.loading));
 
-    final controller = VideoPlayerController.asset(
-      assetPath,
-      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-    );
+    final options = VideoPlayerOptions(mixWithOthers: true);
+    final controller = isBundledMedia(assetPath)
+        ? VideoPlayerController.asset(assetPath, videoPlayerOptions: options)
+        : VideoPlayerController.file(
+            File(assetPath),
+            videoPlayerOptions: options,
+          );
     _controller = controller;
     try {
       await controller.initialize();

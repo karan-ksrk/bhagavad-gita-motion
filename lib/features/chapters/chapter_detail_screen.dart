@@ -7,6 +7,7 @@ import 'package:moksharan/core/widgets/content_width.dart';
 import 'package:moksharan/core/widgets/sample_badge.dart';
 import 'package:moksharan/core/widgets/state_views.dart';
 import 'package:moksharan/domain/gita_structure.dart';
+import 'package:moksharan/features/downloads/chapter_download_card.dart';
 
 class ChapterDetailScreen extends StatelessWidget {
   const new({required this.chapter, super.key});
@@ -54,6 +55,11 @@ class ChapterDetailScreen extends StatelessWidget {
                 style: textTheme.bodyMedium,
               ),
               const SizedBox(height: AppSpacing.lg),
+              ChapterDownloadCard(
+                chapterId: GitaStructure.chapterId(chapter),
+                chapter: chapter,
+              ),
+              const SizedBox(height: AppSpacing.md),
               FilledButton.icon(
                 onPressed: () => context.push(AppRoutes.reader(chapter)),
                 icon: const Icon(Icons.auto_stories),

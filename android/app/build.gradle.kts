@@ -29,6 +29,10 @@ android {
         versionName = flutter.versionName
     }
 
+    // On-demand chapter media packs (D-139). Only app bundles carry them;
+    // plain APKs (flutter run) report them unavailable.
+    assetPacks += listOf(":chapter_02")
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
@@ -46,4 +50,9 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    // Play Asset Delivery client for chapter packs (D-139).
+    implementation("com.google.android.play:asset-delivery:2.3.0")
 }

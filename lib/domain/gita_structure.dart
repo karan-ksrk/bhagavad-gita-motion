@@ -24,6 +24,10 @@ abstract final class GitaStructure {
   static final _chapterIdPattern = RegExp(r'^chapter_(\d{2})$');
   static final _sceneIdPattern = RegExp(r'^ch(\d{2})_scene_\d{3}$');
 
+  /// 2 -> `chapter_02`.
+  static String chapterId(int chapter) =>
+      'chapter_${chapter.toString().padLeft(2, '0')}';
+
   /// `chapter_02` -> 2, or null when malformed or out of range.
   static int? chapterNumberOf(String chapterId) =>
       _valid(_chapterIdPattern.firstMatch(chapterId)?.group(1));

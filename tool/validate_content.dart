@@ -42,7 +42,9 @@ Future<void> main(List<String> args) async {
     return;
   }
   // Media paths are relative to assets/, the parent of the content root.
+  // Asset pack files live in android/<pack>/src/main/assets/ (D-139).
   final assetsDir = rootDir.parent.path;
+  final projectDir = rootDir.parent.parent.path;
 
   final ContentBundle bundle;
   try {
@@ -59,7 +61,11 @@ Future<void> main(List<String> args) async {
 
   final issues = ContentValidator(
     release: release,
-    assetExists: (path) => File('$assetsDir/$path').existsSync(),
+    assetExists: (a) => File(
+      a.pack == null
+          ? '$assetsDir/${a.path}'
+          : '$projectDir/android/${a.pack}/src/main/assets/${a.path}',
+    ).existsSync(),
   ).validate(bundle);
 
   final errors = issues.where((i) => i.severity == Severity.error).length;

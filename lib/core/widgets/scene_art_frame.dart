@@ -2,6 +2,7 @@ import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
 import 'package:moksharan/core/animation/effect_geometry.dart';
+import 'package:moksharan/core/media/media_source.dart';
 
 /// Frames 9:16 scene art for any screen shape.
 ///
@@ -37,8 +38,8 @@ class SceneArtFrame extends StatelessWidget {
                 key: const Key('scene-art-backdrop'),
                 child: ImageFiltered(
                   imageFilter: ImageFilter.blur(sigmaX: 28, sigmaY: 28),
-                  child: Image.asset(
-                    backdropAsset!,
+                  child: Image(
+                    image: mediaImageProvider(backdropAsset!),
                     fit: BoxFit.cover,
                     errorBuilder: (_, _, _) => const SizedBox.shrink(),
                   ),

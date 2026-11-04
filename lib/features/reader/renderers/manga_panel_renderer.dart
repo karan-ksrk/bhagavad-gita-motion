@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moksharan/core/media/media_source.dart';
 import 'package:moksharan/core/settings/app_settings.dart';
 import 'package:moksharan/core/theme/app_colors.dart';
 import 'package:moksharan/core/theme/app_tokens.dart';
@@ -201,8 +202,8 @@ class _PanelImage extends StatelessWidget {
       label: altText,
       child: path == null
           ? const ColoredBox(color: AppColors.midnight)
-          : Image.asset(
-              path!,
+          : Image(
+              image: mediaImageProvider(path!),
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,

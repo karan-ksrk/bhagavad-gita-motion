@@ -148,6 +148,9 @@ Status values: `proposed`, `approved`, `pending`, `superseded`.
 | D-136 | `shared_preferences` ^2.5.6 for user data | -- | Settings, reading progress, and bookmarks are small; SharedPreferences avoids Drift's build_runner codegen (roadmap allows this for the MVP). JSON values under versioned keys (`v1.*`) with a `user_data_version` key and a migrate step at startup; corrupt values fall back to defaults. Revisit Drift when download metadata needs queries (Milestone 11) | approved |
 | D-137 | Text size | -- | No in-app text-size setting: the app follows the system font scale (tested at 2x). Revisit after beta feedback | approved |
 | D-138 | Ambient sound preference deferred | -- | No audio exists yet; the sound setting arrives with Milestone 13 | approved |
+| D-139 | Chapter media packs: own platform channel over `com.google.android.play:asset-delivery` 2.3.0 | -- | One on-demand Play asset pack per chapter (Gradle module `android/chapter_NN`, pack name = chapter ID). A small Kotlin `AssetPackChannel` (method + event channel) instead of a pub.dev plugin: the Flutter PAD plugins are thinly maintained, and we need only fetch/state/remove/confirm/free space. Dart side is `AssetPackService` with Play, unsupported, and fake implementations. Chapter 1 stays bundled as the always-available sample; chapter 2 media moved into pack `chapter_02` as the working proof. Media paths are `assets/...` (bundle) or absolute files (installed pack). Download is blocked when free space < pack size + 20 MB; Play's cellular-confirmation dialog is shown only for a download the user started | approved |
+| D-140 | No Drift for download metadata | -- | Play stores pack state itself, so the app keeps no download database; D-136 (SharedPreferences) stands | approved |
+| D-141 | Pack testing without Play Console | -- | Debug app bundle + `bundletool --local-testing` (`tool/install_with_packs.sh`) exercises the real Play Asset Delivery client against locally stored packs. Plain `flutter run` APKs carry no packs and show chapter 2 as "Download unavailable in this build". Internal app sharing / internal testing track waits for signing (Milestone 15) | approved |
 | D-119 | In-memory settings | -- | Language, transliteration, and reduced-motion settings live in a Riverpod `Notifier` until persistence in Milestone 10. UI strings stay English until localization in Milestone 9 | approved |
 
 ------------------------------------------------------------------------
@@ -187,3 +190,4 @@ Status values: `proposed`, `approved`, `pending`, `superseded`.
 | 2026-11-03 | D-118--D-119 | Prompt 12b font and settings decisions | Claude Code |
 | 2026-11-03 | D-120--D-121 | Prompt 12c content schema and validator | Claude Code |
 | 2026-11-03 | D-122--D-124 | Milestone 4 reference set accepted | Karan / Claude Code |
+| 2026-11-04 | D-139--D-141 | Milestone 11 chapter media packs | Claude Code |

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "_comment": "Paths relative to assets/. Stills processed from Milestone 5 sources (media-production/generated-artwork). Videos are temporary: they carry the visible Veo watermark and scene 1 does not loop seamlessly (D-126). prompt_id refers to media-production/briefs/M5_pilot_scenes.md v002.",
+  "_comment": "Paths relative to assets/. Stills processed from Milestone 5 sources (media-production/generated-artwork). Videos are temporary: they carry the visible Veo watermark and scene 1 does not loop seamlessly (D-126). prompt_id refers to media-production/briefs/M5_pilot_scenes.md v002. Assets with \"pack\" ship in that Play asset pack (android/<pack>/src/main/assets/<path>), not in the app bundle (D-139).",
   "assets": [
     {
       "asset_id": "ch01_scene001_poster",
@@ -121,6 +121,7 @@
     {
       "asset_id": "ch02_scene001_panel001",
       "path": "images/ch02_scene001_panel001.webp",
+      "pack": "chapter_02",
       "media_type": "image",
       "width": 864,
       "height": 1536,
@@ -135,6 +136,7 @@
     {
       "asset_id": "ch02_scene001_panel002",
       "path": "images/ch02_scene001_panel002.webp",
+      "pack": "chapter_02",
       "media_type": "image",
       "width": 864,
       "height": 1536,
@@ -149,6 +151,7 @@
     {
       "asset_id": "ch02_scene001_panel003",
       "path": "images/ch02_scene001_panel003.webp",
+      "pack": "chapter_02",
       "media_type": "image",
       "width": 864,
       "height": 1536,
@@ -163,6 +166,7 @@
     {
       "asset_id": "ch02_scene002_poster",
       "path": "posters/ch02_scene002_poster.webp",
+      "pack": "chapter_02",
       "media_type": "image",
       "width": 864,
       "height": 1536,
