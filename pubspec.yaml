@@ -39,7 +39,12 @@ dependencies:
   video_player: ^2.14.1
 
 dev_dependencies:
+  # On-device flows and frame timing (Milestone 14, D-142).
+  flutter_driver:
+    sdk: flutter
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
