@@ -4,6 +4,7 @@ import 'package:moksharan/core/settings/app_settings.dart';
 import 'package:moksharan/core/theme/app_colors.dart';
 import 'package:moksharan/core/theme/app_tokens.dart';
 import 'package:moksharan/domain/entities/content.dart';
+import 'package:moksharan/features/reader/dialogue_labels.dart';
 import 'package:moksharan/features/reader/dialogue_reveal_controller.dart';
 
 /// Bottom-of-scene dialogue card. One line at a time; tap the card or
@@ -126,29 +127,10 @@ class _Line extends StatelessWidget {
   final Dialogue line;
   final AppLanguage language;
 
-  static String speakerName(Speaker s) => switch (s) {
-    Speaker.krishna => 'Krishna',
-    Speaker.arjuna => 'Arjuna',
-    Speaker.sanjaya => 'Sanjaya',
-    Speaker.dhritarashtra => 'Dhritarashtra',
-    Speaker.narrator => 'Narrator',
-  };
-
-  /// Label that tells the reader what kind of text this is.
-  static String kindLabel(Dialogue d) => switch (d.type) {
-    DialogueType.creative => 'Retelling',
-    DialogueType.narration => 'Narration',
-    DialogueType.verseParaphrase => 'Paraphrase of ${d.sourceRef ?? 'verse'}',
-    DialogueType.verseTranslation => 'Translation of ${d.sourceRef ?? 'verse'}',
-  };
-
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final preferred = language == AppLanguage.hindi
-        ? line.text.hi
-        : line.text.en;
-    final text = preferred ?? line.text.en ?? line.text.hi ?? '';
+    final text = DialogueLabels.text(line, language);
     final isVerse = line.type.requiresSourceRef;
 
     return Column(
@@ -158,7 +140,7 @@ class _Line extends StatelessWidget {
         Row(
           children: [
             Text(
-              speakerName(line.speaker),
+              DialogueLabels.speaker(line.speaker),
               style: textTheme.titleMedium?.copyWith(color: AppColors.gold),
             ),
             const SizedBox(width: AppSpacing.sm),
@@ -173,7 +155,7 @@ class _Line extends StatelessWidget {
                   vertical: 2,
                 ),
                 child: Text(
-                  kindLabel(line),
+                  DialogueLabels.kind(line),
                   style: textTheme.labelSmall?.copyWith(color: AppColors.ivory),
                 ),
               ),
