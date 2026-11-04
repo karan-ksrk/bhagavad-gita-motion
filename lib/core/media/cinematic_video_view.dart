@@ -147,7 +147,13 @@ class _CinematicVideoViewState extends ConsumerState<CinematicVideoView> {
             right: 0,
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.xs),
+                // Below the reader's progress bar (about 44 px).
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.xs,
+                  52,
+                  AppSpacing.xs,
+                  AppSpacing.xs,
+                ),
                 child: _Controls(
                   snapshot: snapshot,
                   onPlayPause: () =>

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:moksharan/core/animation/layered_motion_view.dart';
-import 'package:moksharan/core/media/cinematic_video_view.dart';
 import 'package:moksharan/core/routing/app_router.dart';
 import 'package:moksharan/core/settings/app_settings.dart';
 import 'package:moksharan/core/theme/app_colors.dart';
@@ -12,13 +10,12 @@ import 'package:moksharan/core/widgets/state_views.dart';
 import 'package:moksharan/data/repositories/content_providers.dart';
 import 'package:moksharan/domain/entities/content.dart';
 import 'package:moksharan/domain/gita_structure.dart';
-import 'package:moksharan/features/reader/dialogue_overlay.dart';
+import 'package:moksharan/features/reader/renderers/scene_renderer.dart';
 
 /// Full-screen reader. Swipes between a chapter's scenes.
 ///
-/// Cinematic scenes play through [CinematicVideoView]; layered scenes use
-/// [LayeredMotionView]; manga scenes show their first panel until the
-/// manga renderer arrives in Milestone 8.
+/// Each scene is drawn by [SceneRenderer]; the reader adds progress,
+/// previous/next buttons, and the verse chip.
 class ReaderScreen extends ConsumerWidget {
   const new({required this.chapter, super.key});
 
@@ -144,12 +141,25 @@ class _ScenePagerState extends ConsumerState<_ScenePager> {
     super.dispose();
   }
 
+  void _goTo(int index, {required bool animate}) {
+    if (index < 0 || index >= _scenes.length) return;
+    if (animate) {
+      _pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      _pageController.jumpToPage(index);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     final reduceMotion =
         ref.watch(settingsProvider.select((s) => s.reducedMotion)) ||
         MediaQuery.disableAnimationsOf(context);
+    final scene = _scenes[_index];
 
     return Stack(
       children: [
@@ -158,7 +168,7 @@ class _ScenePagerState extends ConsumerState<_ScenePager> {
           itemCount: _scenes.length,
           onPageChanged: (i) => setState(() => _index = i),
           itemBuilder: (context, i) {
-            final page = _ScenePage(scene: _scenes[i], paths: widget.paths);
+            final page = SceneRenderer.forScene(_scenes[i], widget.paths);
             if (reduceMotion) return page;
             // Scene transition: neighbours fade as they slide.
             return AnimatedBuilder(
@@ -176,80 +186,162 @@ class _ScenePagerState extends ConsumerState<_ScenePager> {
             );
           },
         ),
-        SafeArea(
+        // Top scrim keeps the progress bar and buttons readable on bright art.
+        const IgnorePointer(
           child: Align(
             alignment: Alignment.topCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(top: AppSpacing.md),
-              child: Semantics(
-                label: 'Scene ${_index + 1} of ${_scenes.length}',
-                child: Text(
-                  '${_index + 1} / ${_scenes.length}',
-                  style: textTheme.labelLarge?.copyWith(color: AppColors.ivory),
+            child: SizedBox(
+              height: 140,
+              width: double.infinity,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Color(0x99000000), Color(0x00000000)],
+                  ),
                 ),
               ),
             ),
           ),
+        ),
+        SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: AppSpacing.md,
+              left: 56,
+              right: 56,
+            ),
+            child: _SceneProgress(index: _index, count: _scenes.length),
+          ),
+        ),
+        if (scene.shlokaRefs.isNotEmpty)
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 52, left: AppSpacing.md),
+              child: _ShlokaChip(verseId: scene.shlokaRefs.first),
+            ),
+          ),
+        _EdgeButton(
+          alignment: Alignment.centerLeft,
+          icon: Icons.chevron_left,
+          tooltip: 'Previous scene',
+          onPressed: _index == 0
+              ? null
+              : () => _goTo(_index - 1, animate: !reduceMotion),
+        ),
+        _EdgeButton(
+          alignment: Alignment.centerRight,
+          icon: Icons.chevron_right,
+          tooltip: 'Next scene',
+          onPressed: _index == _scenes.length - 1
+              ? null
+              : () => _goTo(_index + 1, animate: !reduceMotion),
         ),
       ],
     );
   }
 }
 
-class _ScenePage extends StatelessWidget {
-  const new({required this.scene, required this.paths});
+/// Segmented bar plus "n / total" for the current scene.
+class _SceneProgress extends StatelessWidget {
+  const new({required this.index, required this.count});
 
-  final Scene scene;
-  final Map<String, String> paths;
-
-  String? _path(String? id) => id == null ? null : paths[id];
+  final int index;
+  final int count;
 
   @override
   Widget build(BuildContext context) {
-    final media = scene.media;
-    final Widget visual = switch (scene.renderer) {
-      RendererType.cinematic => CinematicVideoView(
-        key: ValueKey(scene.sceneId),
-        posterAsset: _path(media.posterAssetId),
-        videoAsset: _path(media.videoAssetId),
-        loop: media.videoLoop,
-      ),
-      RendererType.layeredMotion => LayeredMotionView(
-        key: ValueKey(scene.sceneId),
-        backgroundAsset: _path(media.backgroundAssetId ?? media.posterAssetId),
-        layerAssets: [
-          for (final id in media.layerAssetIds)
-            if (paths[id] != null) paths[id]!,
-        ],
-        effects: scene.effects,
-      ),
-      // Full manga renderer arrives in Milestone 8; first panel for now.
-      RendererType.mangaPanel => CinematicVideoView(
-        key: ValueKey(scene.sceneId),
-        posterAsset: scene.panels.isEmpty
-            ? null
-            : _path(scene.panels.first.imageAssetId),
-        showControls: false,
-      ),
-    };
-
-    final dialogues = scene.allDialogues.toList();
-    final title = scene.title.en ?? scene.title.hi ?? scene.sceneId;
-
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        visual,
-        Positioned(
-          left: AppSpacing.md,
-          right: AppSpacing.md,
-          bottom: AppSpacing.lg,
-          child: SafeArea(
-            top: false,
-            child: DialogueOverlay(dialogues: dialogues, title: title),
+    final textTheme = Theme.of(context).textTheme;
+    return Semantics(
+      label: 'Scene ${index + 1} of $count',
+      excludeSemantics: true,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              for (var i = 0; i < count; i++)
+                Expanded(
+                  child: Container(
+                    height: 3,
+                    margin: const EdgeInsets.symmetric(horizontal: 2),
+                    decoration: BoxDecoration(
+                      color: i <= index
+                          ? AppColors.gold
+                          : AppColors.ivoryMuted.withValues(alpha: 0.35),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+            ],
           ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            '${index + 1} / $count',
+            style: textTheme.labelLarge?.copyWith(color: AppColors.ivory),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Opens the verse a scene refers to. Verse text lives on the shloka
+/// screen, never baked into scene art.
+class _ShlokaChip extends StatelessWidget {
+  const new({required this.verseId});
+
+  final String verseId;
+
+  @override
+  Widget build(BuildContext context) {
+    final parsed = GitaStructure.parseVerseId(verseId);
+    final label = parsed == null
+        ? verseId
+        : 'Verse ${parsed.chapter}.${parsed.verse}';
+    return ActionChip(
+      avatar: const Icon(Icons.menu_book, size: 18, color: AppColors.gold),
+      label: Text(label),
+      tooltip: 'Open $label',
+      backgroundColor: AppColors.midnight.withValues(alpha: 0.8),
+      side: const BorderSide(color: AppColors.goldMuted),
+      labelStyle: Theme.of(context).textTheme.labelLarge
+          ?.copyWith(color: AppColors.ivory),
+      onPressed: () => context.push(AppRoutes.shloka(verseId)),
+    );
+  }
+}
+
+class _EdgeButton extends StatelessWidget {
+  const new({
+    required this.alignment,
+    required this.icon,
+    required this.tooltip,
+    required this.onPressed,
+  });
+
+  final Alignment alignment;
+  final IconData icon;
+  final String tooltip;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    if (onPressed == null) return const SizedBox.shrink();
+    return Align(
+      alignment: alignment,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+        child: IconButton(
+          tooltip: tooltip,
+          style: IconButton.styleFrom(
+            backgroundColor: AppColors.midnight.withValues(alpha: 0.45),
+          ),
+          icon: Icon(icon, color: AppColors.ivory, size: 32),
+          onPressed: onPressed,
         ),
-      ],
+      ),
     );
   }
 }
