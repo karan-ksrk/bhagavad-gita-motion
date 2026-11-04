@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moksharan/core/settings/app_settings.dart';
 import 'package:moksharan/core/theme/app_colors.dart';
 import 'package:moksharan/core/theme/app_tokens.dart';
+import 'package:moksharan/core/widgets/scene_art_frame.dart';
 import 'package:moksharan/domain/entities/content.dart';
 import 'package:moksharan/features/reader/speech_bubble.dart';
 
@@ -81,19 +82,22 @@ class _MangaPanelRendererState extends ConsumerState<MangaPanelRenderer> {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            AnimatedSwitcher(
-              duration: duration,
-              transitionBuilder: (child, animation) =>
-                  panel.transition == PanelTransition.slide
-                  ? SlideTransition(
-                      position: Tween(
-                        begin: const Offset(0.15, 0),
-                        end: Offset.zero,
-                      ).animate(animation),
-                      child: FadeTransition(opacity: animation, child: child),
-                    )
-                  : FadeTransition(opacity: animation, child: child),
-              child: image,
+            SceneArtFrame(
+              backdropAsset: widget.paths[panel.imageAssetId],
+              child: AnimatedSwitcher(
+                duration: duration,
+                transitionBuilder: (child, animation) =>
+                    panel.transition == PanelTransition.slide
+                    ? SlideTransition(
+                        position: Tween(
+                          begin: const Offset(0.15, 0),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: FadeTransition(opacity: animation, child: child),
+                      )
+                    : FadeTransition(opacity: animation, child: child),
+                child: image,
+              ),
             ),
             // Bottom scrim keeps captions and the panel counter readable.
             const IgnorePointer(
@@ -118,58 +122,62 @@ class _MangaPanelRendererState extends ConsumerState<MangaPanelRenderer> {
               left: AppSpacing.md,
               right: AppSpacing.md,
               bottom: AppSpacing.lg,
-              child: SafeArea(
-                top: false,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      widget.scene.title.en ??
-                          widget.scene.title.hi ??
-                          widget.scene.sceneId,
-                      style: textTheme.labelSmall?.copyWith(
-                        color: AppColors.ivoryMuted,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.xs),
-                    if (line != null)
-                      AnimatedSwitcher(
-                        duration: reduceMotion
-                            ? Duration.zero
-                            : const Duration(milliseconds: 300),
-                        child: SizedBox(
-                          key: ValueKey(line.dialogueId),
-                          width: double.infinity,
-                          child: SpeechBubble(line: line, language: language),
+              child: ReadableWidth(
+                child: SafeArea(
+                  top: false,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        widget.scene.title.en ??
+                            widget.scene.title.hi ??
+                            widget.scene.sceneId,
+                        style: textTheme.labelSmall?.copyWith(
+                          color: AppColors.ivoryMuted,
                         ),
                       ),
-                    const SizedBox(height: AppSpacing.sm),
-                    Row(
-                      children: [
-                        for (var i = 0; i < _panels.length; i++)
-                          Container(
-                            width: 8,
-                            height: 8,
-                            margin: const EdgeInsets.only(right: 6),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: i == _panel
-                                  ? AppColors.gold
-                                  : AppColors.ivoryMuted.withValues(alpha: 0.4),
+                      const SizedBox(height: AppSpacing.xs),
+                      if (line != null)
+                        AnimatedSwitcher(
+                          duration: reduceMotion
+                              ? Duration.zero
+                              : const Duration(milliseconds: 300),
+                          child: SizedBox(
+                            key: ValueKey(line.dialogueId),
+                            width: double.infinity,
+                            child: SpeechBubble(line: line, language: language),
+                          ),
+                        ),
+                      const SizedBox(height: AppSpacing.sm),
+                      Row(
+                        children: [
+                          for (var i = 0; i < _panels.length; i++)
+                            Container(
+                              width: 8,
+                              height: 8,
+                              margin: const EdgeInsets.only(right: 6),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: i == _panel
+                                    ? AppColors.gold
+                                    : AppColors.ivoryMuted.withValues(
+                                        alpha: 0.4,
+                                      ),
+                              ),
+                            ),
+                          const Spacer(),
+                          Text(
+                            'Panel ${_panel + 1} / ${_panels.length}  ·  '
+                            '${_atEnd ? 'Tap to restart' : 'Tap to continue'}',
+                            style: textTheme.bodySmall?.copyWith(
+                              color: AppColors.ivory,
                             ),
                           ),
-                        const Spacer(),
-                        Text(
-                          'Panel ${_panel + 1} / ${_panels.length}  ·  '
-                          '${_atEnd ? 'Tap to restart' : 'Tap to continue'}',
-                          style: textTheme.bodySmall?.copyWith(
-                            color: AppColors.ivory,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

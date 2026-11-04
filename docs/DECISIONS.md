@@ -144,6 +144,7 @@ Status values: `proposed`, `approved`, `pending`, `superseded`.
 | D-132 | Review status always visible | -- | Verse and translation review badges show in every build (not only internal builds) until `published`, so unreviewed text can never pass as approved | approved |
 | D-133 | Reviewer step skipped for now | -- | Owner chose to build Milestone 9 without a scripture reviewer. The app still ships no generated scripture: verse text is added only from a named source into `assets/content/shlokas/`, stays `draft`, shows the Draft badge, and the `--release` gate keeps rejecting it until reviewed | approved |
 | D-134 | Language fallback | -- | Translation in the chosen language if it has text; else the other UI language with a "not available yet" note; else a pending placeholder. Sanskrit is always shown | approved |
+| D-135 | Wide-screen reader | -- | When the reader is wider than 0.8 (width/height), scene art is shown whole in a centred 9:16 column over a blurred, darkened copy of itself; dialogue and captions are capped at 600 dp. Phones and portrait tablets keep full-bleed art. Effects stay aligned because cover equals contain inside the column. Checked on Mi Pad 7 (2136x3200) | approved |
 | D-119 | In-memory settings | -- | Language, transliteration, and reduced-motion settings live in a Riverpod `Notifier` until persistence in Milestone 10. UI strings stay English until localization in Milestone 9 | approved |
 
 ------------------------------------------------------------------------
