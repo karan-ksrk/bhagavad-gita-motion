@@ -3,7 +3,7 @@
   "_comment": "SAMPLE manifest. Chapter titles and summaries are null until verified against D-003/D-004/D-005.",
   "chapters": [
     { "chapter_id": "chapter_01", "number": 1, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": "chapters/chapter_01.json" },
-    { "chapter_id": "chapter_02", "number": 2, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
+    { "chapter_id": "chapter_02", "number": 2, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": "chapters/chapter_02.json" },
     { "chapter_id": "chapter_03", "number": 3, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
     { "chapter_id": "chapter_04", "number": 4, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },
     { "chapter_id": "chapter_05", "number": 5, "title": null, "summary": null, "text_status": "draft", "sample": true, "scenes_file": null },

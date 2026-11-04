@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "_comment": "Milestone 5 pilot scenes 4-5. Artwork is generated; all text is placeholder pending scripture review (D-006). Verse ranges unverified. Effect anchors are normalized to the 864x1536 (9:16) crop.",
+  "chapter_id": "chapter_02",
+  "sample": true,
+  "scenes": [
+    {
+      "scene_id": "ch02_scene_001",
+      "order": 1,
+      "title": { "hi": null, "en": "[Pilot] Arjuna asks for guidance" },
+      "renderer": "manga_panel",
+      "panels": [
+        {
+          "panel_id": "ch02_s001_p001",
+          "order": 1,
+          "image": "ch02_scene001_panel001",
+          "alt_text": {
+            "hi": null,
+            "en": "Krishna turns in the chariot seat and speaks, one hand raised with an open palm."
+          },
+          "transition": "fade",
+          "dialogues": [
+            {
+              "dialogue_id": "ch02_s001_p001_d001",
+              "speaker_id": "krishna",
+              "dialogue_type": "creative",
+              "text": { "hi": null, "en": "[Dialogue pending scripture review]" },
+              "reveal_order": 1,
+              "text_status": "draft"
+            }
+          ]
+        },
+        {
+          "panel_id": "ch02_s001_p002",
+          "order": 2,
+          "image": "ch02_scene001_panel002",
+          "alt_text": {
+            "hi": null,
+            "en": "Arjuna kneels with his palms joined, looking up with tears on his face."
+          },
+          "transition": "fade",
+          "dialogues": [
+            {
+              "dialogue_id": "ch02_s001_p002_d001",
+              "speaker_id": "arjuna",
+              "dialogue_type": "creative",
+              "text": { "hi": null, "en": "[Dialogue pending scripture review]" },
+              "reveal_order": 1,
+              "text_status": "draft"
+            }
+          ]
+        },
+        {
+          "panel_id": "ch02_s001_p003",
+          "order": 3,
+          "image": "ch02_scene001_panel003",
+          "alt_text": {
+            "hi": null,
+            "en": "Wide view at dusk: the chariot stands still between the two armies, Arjuna silent with his head lowered."
+          },
+          "transition": "slide"
+        }
+      ]
+    },
+    {
+      "scene_id": "ch02_scene_002",
+      "order": 2,
+      "title": { "hi": null, "en": "[Pilot] Krishna begins to teach" },
+      "renderer": "layered_motion",
+      "_media_note": "Krishna is part of the poster; no separate layer yet (cut-out deferred). Aura and particles draw over the poster.",
+      "media": {
+        "poster": "ch02_scene002_poster",
+        "background": "ch02_scene002_poster"
+      },
+      "effects": [
+        {
+          "effect_id": "aura_1",
+          "type": "golden_aura",
+          "enabled": true,
+          "anchor": { "x": 0.336, "y": 0.391 },
+          "scale": 0.45,
+          "intensity": 0.6,
+          "reduced_motion": "static"
+        },
+        {
+          "effect_id": "particles_1",
+          "type": "floating_particles",
+          "enabled": true,
+          "anchor": { "x": 0.347, "y": 0.423 },
+          "scale": 0.7,
+          "intensity": 0.4,
+          "reduced_motion": "hide"
+        },
+        {
+          "effect_id": "feather_1",
+          "type": "peacock_feather",
+          "enabled": true,
+          "anchor": { "x": 0.275, "y": 0.286 },
+          "scale": 0.08,
+          "intensity": 0.5,
+          "reduced_motion": "static"
+        }
+      ],
+      "dialogues": [
+        {
+          "dialogue_id": "ch02_s002_d001",
+          "speaker_id": "krishna",
+          "dialogue_type": "creative",
+          "text": { "hi": null, "en": "[Dialogue pending scripture review]" },
+          "reveal_order": 1,
+          "text_status": "draft"
+        }
+      ]
+    }
+  ]
+}
