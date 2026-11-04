@@ -37,3 +37,16 @@ final chapterContentsProvider = FutureProvider<Map<String, ChapterContent>>((
   }
   return result;
 });
+
+/// Verse records in reading order.
+final shlokaListProvider = FutureProvider<List<Shloka>>(
+  (ref) => ref.watch(contentRepositoryProvider).shlokas(),
+);
+
+/// Content sources by ID, for attribution.
+final sourcesByIdProvider = FutureProvider<Map<String, ContentSource>>((
+  ref,
+) async {
+  final sources = await ref.watch(contentRepositoryProvider).sources();
+  return {for (final s in sources) s.sourceId: s};
+});

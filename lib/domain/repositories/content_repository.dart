@@ -17,4 +17,10 @@ abstract interface class ContentRepository {
 
   /// All media assets in the manifest.
   Future<List<MediaAsset>> mediaAssets();
+
+  /// All verse records, ordered by chapter then verse.
+  Future<List<Shloka>> shlokas();
+
+  /// All content sources (editions, translations, original content).
+  Future<List<ContentSource>> sources();
 }

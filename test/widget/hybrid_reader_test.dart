@@ -31,11 +31,12 @@ void main() {
     expect(currentLocation(container), '/shloka/BG.1.1');
   });
 
-  testWidgets('scene without verse refs has no chip', (tester) async {
+  testWidgets('each scene shows its own verse chip', (tester) async {
     await pumpApp(tester, location: '/read/1');
     await tester.tap(find.byTooltip('Next scene'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('Verse '), findsNothing);
+    expect(find.text('Verse 1.14'), findsOneWidget);
+    expect(find.text('Verse 1.1'), findsNothing);
   });
 
   testWidgets('manga panels advance on tap and loop at the end', (
